@@ -10,25 +10,70 @@
   ],
   "background": {
     "scripts": [
-      "scripts/background.js"
+      "scripts/messageBus.js",
+      "scripts/backend/backend.js"
     ],
     "persistent": false
   },
-  "content_scripts": [{
-    "matches": ["https://mail.google.com/*"],
-    "js": ["scripts/communicators/gmail.js"]
-  }],
-  "options_page": "html/options.html",
-  "page_action": {
-    "default_popup": "html/popup.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*"
+      ],
+      "js": [
+        "scripts/lib/inboxsdk.js",
+        "scripts/content/gmail.js",
+        "scripts/messageBus.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://snappli.atlassian.net/browse/*",
+        "https://snappli.atlassian.net/secure/*"
+      ],
+      "js": [
+        "scripts/content/jira.js",
+        "scripts/messageBus.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://snappli.atlassian.net/wiki/*"
+      ],
+      "js": [
+        "scripts/content/confluence.js",
+        "scripts/messageBus.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "https://mail.google.com/*",
+        "https://snappli.atlassian.net/*"
+      ],
+      "js": [
+        "scripts/content/other.js",
+        "scripts/messageBus.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "options_ui": {
+    "page": "html/options.html",
+    "open_in_tab": false
+  },
+  "browser_action": {
     "default_icon": {
-      "16": "images/todoist-icon-32.png",
+      "32": "images/todoist-icon-32.png",
       "64": "images/todoist-icon-64.png",
       "128": "images/todoist-icon-128.png"
     }
   },
   "icons": {
-    "16": "images/todoist-icon-32.png",
+    "32": "images/todoist-icon-32.png",
     "64": "images/todoist-icon-64.png",
     "128": "images/todoist-icon-128.png"
   },

@@ -5,7 +5,7 @@ const RESPONSE_TEXT_ID = 'responseText';
 let currentTimeout;
 const showTokenSaved = () => {
     const responseTextElem = document.getElementById(RESPONSE_TEXT_ID);
-    responseTextElem.textContent = "Token Saved!";
+    responseTextElem.textContent = "Configuration successfully saved";
     if (currentTimeout) {
         clearTimeout(currentTimeout);
     }
