@@ -11,7 +11,9 @@
   "background": {
     "scripts": [
       "scripts/messageBus.js",
-      "scripts/backend/backend.js"
+      "scripts/configStore.js",
+      "scripts/backend/backend.js",
+      "scripts/backend/todoistTaskFormatter.js"
     ],
     "persistent": false
   },

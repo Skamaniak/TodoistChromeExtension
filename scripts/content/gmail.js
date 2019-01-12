@@ -11,10 +11,13 @@ const registerMessageViewHandler = (sdk) => {
     return new Promise((resolve) => {
         sdk.Conversations.registerMessageViewHandler(function(message_view) {
             const thread_view = message_view.getThreadView();
+            const sender = message_view.getSender();
             taskDefinition = {
                 source: "Email",
-                title: thread_view.getSubject(),
-                href: top.location.href
+                subject: thread_view.getSubject(),
+                href: top.location.href,
+                senderName: sender.name,
+                senderEmailAddress: sender.emailAddress
             };
             message_view.on('destroy', function() {
                 taskDefinition = null;

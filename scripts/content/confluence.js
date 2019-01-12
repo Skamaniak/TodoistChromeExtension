@@ -1,5 +1,5 @@
 const scrapeConfluencePageInfo = () => {
-    const pageTitleElement = document.querySelector("#title-text");
+    const pageTitleElement = document.getElementById("title-text");
     if (pageTitleElement) {
         return {
             source: "Confluence",

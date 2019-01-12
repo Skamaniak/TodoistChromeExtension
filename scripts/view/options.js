@@ -1,10 +1,7 @@
-const API_KEY_ID = 'todoistApiKey';
-const SAVE_BUTTON_ID = 'saveApiKeyButton';
-const RESPONSE_TEXT_ID = 'responseText';
 
 let currentTimeout;
-const showTokenSaved = () => {
-    const responseTextElem = document.getElementById(RESPONSE_TEXT_ID);
+const showConfigSaved = () => {
+    const responseTextElem = document.getElementById("responseText");
     responseTextElem.textContent = "Configuration successfully saved";
     if (currentTimeout) {
         clearTimeout(currentTimeout);
@@ -12,11 +9,56 @@ const showTokenSaved = () => {
     currentTimeout = setTimeout(() => responseTextElem.textContent = "", 2000)
 };
 
-window.onload = function () {
-    document.getElementById(SAVE_BUTTON_ID).onclick = () => {
-        const apiKey = document.getElementById(API_KEY_ID).value;
-        chrome.storage.sync.set({todoistApiKey: apiKey}, function() {
-            showTokenSaved();
-        })
+window.onload = () => {
+    const ELEMS = {
+        ACTIONS: {
+            save: document.getElementById("saveButton")
+        },
+        TODOIST: {
+            apiKey: document.getElementById("todoistApiKey")
+        },
+        GMAIL: {
+            taskTemplate: document.getElementById("gmailTaskTemplate")
+        },
+        CONFLUENCE: {
+            taskTemplate: document.getElementById("confluenceTaskTemplate")
+        },
+        JIRA: {
+            taskTemplate: document.getElementById("jiraTaskTemplate")
+        },
+        WEBSITE: {
+            taskTemplate: document.getElementById("websiteTaskTemplate")
+        }
     };
+
+    top.CONFIG_STORE.loadConfig()
+        .then((config) => {
+            ELEMS.TODOIST.apiKey.value = config.todoist.todoistApiKey;
+            ELEMS.GMAIL.taskTemplate.value = config.gmail.taskTemplate;
+            ELEMS.CONFLUENCE.taskTemplate.value = config.confluence.taskTemplate;
+            ELEMS.JIRA.taskTemplate.value = config.jira.taskTemplate;
+            ELEMS.WEBSITE.taskTemplate.value = config.website.taskTemplate;
+        });
+
+    ELEMS.ACTIONS.save.onclick = () => {
+        const config = {
+            todoist: {
+                todoistApiKey: ELEMS.TODOIST.apiKey.value
+            },
+            gmail:{
+                taskTemplate: ELEMS.GMAIL.taskTemplate.value
+            },
+            confluence: {
+                taskTemplate: ELEMS.CONFLUENCE.taskTemplate.value
+            },
+            jira: {
+                taskTemplate: ELEMS.JIRA.taskTemplate.value
+            },
+            website: {
+                taskTemplate: ELEMS.WEBSITE.taskTemplate.value
+            }
+        };
+        top.CONFIG_STORE.storeConfig(config)
+            .then(() => showConfigSaved())
+    }
 };

@@ -1,11 +1,26 @@
 const scrapeJiraTicketInfo = () => {
-    const summaryElement = document.querySelector("#summary-val");
-    const issueKeyElement = document.querySelector("#key-val");
-    if (summaryElement && issueKeyElement) {
+    const summaryElement = document.getElementById("summary-val");
+    const issueKeyElement = document.getElementById("key-val");
+    const typeElement = document.getElementById("type-val");
+    const assigneeElement = document.getElementById("assignee-val");
+    const reporterElement = document.getElementById("reporter-val");
+    const priorityElement = document.getElementById("priority-val");
+    const statusElement = document.getElementById("status-val");
+
+    if (summaryElement && issueKeyElement
+        && typeElement && assigneeElement
+        && reporterElement && priorityElement
+        && statusElement) {
+
         return {
             source: "Jira",
-            title: summaryElement.textContent,
-            href: issueKeyElement.href
+            summary: summaryElement.textContent,
+            href: issueKeyElement.href,
+            issueType: typeElement.textContent.trim(),
+            assignee: assigneeElement.textContent.trim(),
+            reporter: reporterElement.textContent.trim(),
+            priority: priorityElement.textContent.trim(),
+            status: statusElement.textContent.trim()
         };
     }
     return null;

@@ -1,12 +1,22 @@
-.options {
-    height: 100px;
+.options .container {
+    display: grid;
+    grid-template-columns: 100px auto 21px;
 }
 
-.options .todoist-api-key-input {
-    width: 80%;
+.options .info-icon {
+    margin: auto 0 auto 5px;
 }
 
-.options .response-text {
+.options .full-row {
+    grid-column-start: 0;
+    grid-column-end: span 3;
+}
+
+.options .status-text {
     color: green;
-    font-size: 18px;
+    margin: auto;
+}
+
+.options .small-text {
+    font-size: 9px;
 }

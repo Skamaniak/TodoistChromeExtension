@@ -62,12 +62,9 @@ class PluginIconController {
     }
 }
 class TodoistClient {
-    _getApiKey() {
-        return new Promise((resolve) => {
-            chrome.storage.sync.get('todoistApiKey', function (settings) {
-                resolve(settings.todoistApiKey);
-            });
-        });
+    static _getApiKey() {
+        return top.CONFIG_STORE.loadConfigSection('todoist')
+            .then((todoistConfig) => todoistConfig.todoistApiKey);
     }
 
     _sendPost(apiKey, path, body) {
@@ -93,11 +90,11 @@ class TodoistClient {
         });
     }
 
-    createTask(taskDefinition) {
+    createTask(taskText) {
         const task = {
-            "content": "[" + taskDefinition.title + " (" + taskDefinition.source + ")" + "](" + taskDefinition.href + ")"
+            "content": taskText
         };
-        return this._getApiKey()
+        return TodoistClient._getApiKey()
             .then((apiKey) => this._sendPost(apiKey, "https://beta.todoist.com/API/v8/tasks", task))
     }
 }
@@ -105,7 +102,7 @@ class AlertManager {
     static _getHint(error) {
         const status = error.status;
         if (status === 401 || status === 403) {
-            return "Please check your API Key";
+            return "Please check your API Key. Right click to plugin icon > Options.";
         }
         if (status >= 400 && status < 500) {
             return "There is something wrong with Chrome Plugin. Please try to download new version or contact Author."
@@ -134,7 +131,8 @@ const todoistClient = new TodoistClient();
 
 const createTask = (taskDefinition) => {
     pluginIconController.signalLoading();
-    todoistClient.createTask(taskDefinition)
+    top.TASK_FORMATTER.toTodoistTask(taskDefinition)
+        .then((taskText) => todoistClient.createTask(taskText))
         .then(() => pluginIconController.signalSuccess())
         .catch((error) => {
             pluginIconController.signalFailure();

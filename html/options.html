@@ -3,14 +3,51 @@
 <head>
     <title>Todoist Extension Options</title>
     <link rel="stylesheet" type="text/css" href="/css/options.css">
+    <script src="/scripts/configStore.js"></script>
     <script src="/scripts/view/options.js"></script>
 </head>
 <body>
 <div class="options">
-    <label for="todoistApiKey">Todoist API Key</label>
-    <input class="todoist-api-key-input" id="todoistApiKey" type="text"/>
-    <button class="todoist-api-key-save-button" id="saveApiKeyButton">Save</button>
-    <p class="response-text" id="responseText"></p>
+    <div class="section-todoist container">
+        <h2 class="full-row">Todoist</h2>
+        <label class="grid-item" for="todoistApiKey">Todoist API Key</label>
+        <input class="grid-item" id="todoistApiKey" type="text" required/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist API key. To get it please log into https://todoist.com/ then click cog icon in the top right corner > Settings > Integrations."/>
+    </div>
+
+    <div class="gmail container container">
+        <h2 class="full-row">Gmail</h2>
+        <label class="grid-item" for="gmailTaskTemplate">Task Template</label>
+        <input class="grid-item" id="gmailTaskTemplate" placeholder="[$subject ($source)]($href)" type="text" required/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress."/>
+    </div>
+
+    <div class="confluence container">
+        <h2 class="full-row">Confluence</h2>
+        <label class="grid-item" for="confluenceTaskTemplate">Task Template</label>
+        <input class="grid-item" id="confluenceTaskTemplate" placeholder="[$title ($source)]($href)" type="text" required/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $title, $source, $href."/>
+    </div>
+
+    <div class="jira container">
+        <h2 class="full-row">Jira</h2>
+        <label class="grid-item" for="jiraTaskTemplate">Task Template</label>
+        <input class="grid-item" id="jiraTaskTemplate" placeholder="[$summary ($source)]($href)" type="text" required/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status."/>
+    </div>
+
+    <div class="website container">
+        <h2 class="full-row">Generic Websites</h2>
+        <label class="grid-item" for="websiteTaskTemplate">Task Template</label>
+        <input class="grid-item" id="websiteTaskTemplate" placeholder="[$title ($source)]($href)" type="text" required/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $title, $source, $href."/>
+    </div>
+
+    <br>
+    <div class="website container">
+        <button class="grid-item" id="saveButton">Save</button>
+        <p class="status-text grid-item" id="responseText"></p>
+    </div>
 </div>
 </body>
 </html>
