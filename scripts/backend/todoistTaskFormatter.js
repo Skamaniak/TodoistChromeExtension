@@ -35,7 +35,6 @@ const formatJiraTask = (taskDefinition) => {
         });
 };
 
-
 const formatWebsiteTask = (taskDefinition) => {
     return top.CONFIG_STORE.loadConfigSection("website")
         .then((config) => {
@@ -53,6 +52,7 @@ const formatters = {
     "Website": (taskDefinition) => formatWebsiteTask(taskDefinition)
 };
 
+// export
 top.TASK_FORMATTER = top.TASK_FORMATTER || {};
 top.TASK_FORMATTER.toTodoistTask = (taskDefinition) => {
     const formatter = formatters[taskDefinition.source];

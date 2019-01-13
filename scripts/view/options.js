@@ -18,7 +18,8 @@ window.onload = () => {
             apiKey: document.getElementById("todoistApiKey")
         },
         GMAIL: {
-            taskTemplate: document.getElementById("gmailTaskTemplate")
+            taskTemplate: document.getElementById("gmailTaskTemplate"),
+            embedButton: document.getElementById("gmailEmbedButtonSelect")
         },
         CONFLUENCE: {
             taskTemplate: document.getElementById("confluenceTaskTemplate")
@@ -46,7 +47,8 @@ window.onload = () => {
                 todoistApiKey: ELEMS.TODOIST.apiKey.value
             },
             gmail:{
-                taskTemplate: ELEMS.GMAIL.taskTemplate.value
+                taskTemplate: ELEMS.GMAIL.taskTemplate.value,
+                embedButton: ELEMS.GMAIL.embedButton.value
             },
             confluence: {
                 taskTemplate: ELEMS.CONFLUENCE.taskTemplate.value

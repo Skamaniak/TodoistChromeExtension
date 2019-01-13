@@ -1,7 +1,7 @@
 {
   "name": "Todoist Extension",
   "version": "1.0",
-  "description": "Todoist Extension for reporting tasks from common communicators like Gmail, Slack, etc.",
+  "description": "Todoist Extension for reporting tasks from common Wandera tools like Gmail, Slack, Jira, Confluence and it also supports creating tasks from any generic website. Some icons were made by [Smashicons|https://www.flaticon.com/authors/smashicons] from www.flaticon.com",
   "permissions": [
     "storage",
     "activeTab",
@@ -10,10 +10,15 @@
   ],
   "background": {
     "scripts": [
+      "scripts/configStoreInit.js",
+      "scripts/configStoreApi.js",
       "scripts/messageBus.js",
-      "scripts/configStore.js",
-      "scripts/backend/backend.js",
-      "scripts/backend/todoistTaskFormatter.js"
+
+      "scripts/backend/pluginIconController.js",
+      "scripts/backend/alertManager.js",
+      "scripts/backend/todoistClient.js",
+      "scripts/backend/todoistTaskFormatter.js",
+      "scripts/backend/backend.js"
     ],
     "persistent": false
   },
@@ -23,9 +28,10 @@
         "https://mail.google.com/*"
       ],
       "js": [
+        "scripts/configStoreApi.js",
+        "scripts/messageBus.js",
         "scripts/lib/inboxsdk.js",
-        "scripts/content/gmail.js",
-        "scripts/messageBus.js"
+        "scripts/content/gmail.js"
       ],
       "run_at": "document_end"
     },

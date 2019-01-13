@@ -10,6 +10,7 @@ const sendMessageToFrontend = (action) => {
     });
 };
 
+// export
 top.MESSAGE_BUS = top.MESSAGE_BUS || {};
 
 top.MESSAGE_BUS.TO_BACKEND = top.MESSAGE_BUS.TO_BACKEND || {};

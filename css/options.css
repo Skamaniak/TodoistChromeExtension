@@ -3,6 +3,10 @@
     grid-template-columns: 100px auto 21px;
 }
 
+.options .grid-item {
+    margin: 2px 0;
+}
+
 .options .info-icon {
     margin: auto 0 auto 5px;
 }

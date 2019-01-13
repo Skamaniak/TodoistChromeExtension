@@ -1,6 +1,6 @@
 const initInboxSdk = () => {
     return new Promise((resolve) => {
-        InboxSDK.load(2, 'sdk_a628b78da5fe4c0_703312c6e0').then(function(sdk){
+        InboxSDK.load(2, 'sdk_a628b78da5fe4c0_703312c6e0').then(function (sdk) {
             resolve(sdk);
         });
     });
@@ -9,7 +9,7 @@ const initInboxSdk = () => {
 let taskDefinition;
 const registerMessageViewHandler = (sdk) => {
     return new Promise((resolve) => {
-        sdk.Conversations.registerMessageViewHandler(function(message_view) {
+        sdk.Conversations.registerMessageViewHandler(function (message_view) {
             const thread_view = message_view.getThreadView();
             const sender = message_view.getSender();
             taskDefinition = {
@@ -19,7 +19,7 @@ const registerMessageViewHandler = (sdk) => {
                 senderName: sender.name,
                 senderEmailAddress: sender.emailAddress
             };
-            message_view.on('destroy', function() {
+            message_view.on('destroy', function () {
                 taskDefinition = null;
             });
             resolve(sdk);
@@ -28,17 +28,19 @@ const registerMessageViewHandler = (sdk) => {
 };
 
 const addTodoistButton = (sdk) => {
-    return new Promise((resolve) => {
-        sdk.Toolbars.registerThreadButton({
-            title: "Add to Todoist",
-            positions: ["THREAD"],
-            iconUrl: "https://d3ptyyxy2at9ui.cloudfront.net/gmail-plugin-todoist-icon-v1.svg",
-            onClick: function() {
-                top.MESSAGE_BUS.TO_BACKEND.createTask(taskDefinition);
+    return top.CONFIG_STORE.loadConfigSection('gmail')
+        .then((cfg) => {
+            if (cfg.embedButton === 'true') {
+                sdk.Toolbars.registerThreadButton({
+                    title: "Add to Todoist",
+                    positions: ["THREAD"],
+                    iconUrl: "https://d3ptyyxy2at9ui.cloudfront.net/gmail-plugin-todoist-icon-v1.svg",
+                    onClick: function () {
+                        top.MESSAGE_BUS.TO_BACKEND.createTask(taskDefinition);
+                    }
+                });
             }
         });
-        resolve(context);
-    })
 };
 
 const registerBackendMessageBus = () => {
