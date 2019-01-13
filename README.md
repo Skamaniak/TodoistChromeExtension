@@ -1,8 +1,8 @@
-# Wandera Todoist plugin for CHrome
-Plugin will allow you to create a todoist task from Jira ticket, Gmail, Confluence page or any other generic website with a single click.
+# Wandera Todoist plugin for Chrome
+Plugin will allow you to create a Todoist task from Jira ticket, Gmail, Confluence page or any other generic website with a single click.
 
 ### Installation
-Unfortunately the plugin is not in official Chrome store so installation is not as easy as official installation but you can still install it pretty easily by following these steps:
+Unfortunately the plugin is not in official Chrome store so installation is not as easy as of an official plugin but you can still install it pretty easily by following these steps
 1) Clone the repository from https://github.com/Skamaniak/TodoistChromeExtension.git 
 2) Go to chrome://extensions
 3) Enable Developer mode in the upper right corner of the screen
@@ -21,9 +21,9 @@ Before you start using the plugin, you need to fill in the todoist API key. You 
 4) Right-click at the plugin icon in the browser and select Options
 5) Fill in the Todoist API token and save the dialog
 
-Voila! Everything should be now ready.
+Voila! Everything should be ready now.
 
-Options dialog contains more options for configuration
+Options dialog contains more configuration
 <br/>
 ![](documentation/PlugginOptions.png "Plugin options")
 
@@ -34,7 +34,7 @@ Using the dialog you can configure templates used for creation of Todoist tasks.
 As you can see, inbox contains 4 tasks - one created from email, jira issue, confluence page and generic website.
 Each task is clickable and navigates directly to the resource from which it was created (e.g. directly to email detail)
 
-You can customise the templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue.
+You can customise templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue. You can for example include issue type from Jira ticket or sender details from an email and much more. 
 
 ## How to use
 Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. Icon should indicate whether the task creation succeeded.
