@@ -1,4 +1,4 @@
-# Wandera Todoist plugin for Crome
+# Wandera Todoist plugin for CHrome
 Plugin will allow you to create a todoist task from Jira ticket, Gmail, Confluence page or any other generic website with a single click.
 
 ### Installation
