@@ -10,6 +10,8 @@ Unfortunately the plugin is not in official Chrome store so installation is not 
 5) Select folder which contains the cloned plugin repository
 
 And that's it. If you want to update plugin, you can just git pull the repository and refresh the plugin on the Chrome extension page
+
+<br/><br/>
 ![Alt text](documentation/pluginCard.png "Plugin Card on Chrome extension page")
 
 ### Configuration
@@ -23,10 +25,15 @@ Before you start using the plugin, you need to fill in the todoist API key. You 
 Voila! Everything should be now ready.
 
 Options dialog contains more options for configuration
+
+<br/><br/>
 ![Alt text](documentation/PlugginOptions.png "Plugin options")
 
 Using the dialog you can configure templates used for creation of Todoist tasks. In default, plugin creates tasks as shown in the following picture
+
+<br/><br/>
 ![Alt text](documentation/TodoistInbox.png "Todoist inbox")
+
 As you can see, inbox contains 4 tasks - one created from email, jira issue, confluence page and generic website.
 Each task is clickable and navigates directly to the resource from which it was created (e.g. directly to email detail)
 
