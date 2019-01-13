@@ -1,5 +1,5 @@
 # Wandera Todoist plugin for Crome
-Plugin will allow you to create a todoist tasl from Jira ticket, Gmail, Confluence page or any other generic website with a single click.
+Plugin will allow you to create a todoist task from Jira ticket, Gmail, Confluence page or any other generic website with a single click.
 
 ### Installation
 Unfortunately the plugin is not in official Chrome store so installation is not as easy as official installation but you can still install it pretty easily by following these steps:
@@ -37,7 +37,7 @@ Each task is clickable and navigates directly to the resource from which it was 
 You can customise the templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue.
 
 ## How to use
-Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. Icon should indicate whether the task creation worked.
+Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. Icon should indicate whether the task creation succeeded.
 <br/>
 ![](documentation/taskCreation.gif "Task creation")
 <br/>
