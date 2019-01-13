@@ -57,8 +57,7 @@ const registerBackendMessageBus = () => {
     })
 };
 
-const context = {};
-initInboxSdk(context)
+registerBackendMessageBus()
+    .then(initInboxSdk)
     .then(registerMessageViewHandler)
-    .then(addTodoistButton)
-    .then(registerBackendMessageBus);
+    .then(addTodoistButton);
