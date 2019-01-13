@@ -11,7 +11,7 @@ Unfortunately the plugin is not in official Chrome store so installation is not 
 
 And that's it. If you want to update plugin, you can just git pull the repository and refresh the plugin on the Chrome extension page
 <br/>
-![Alt text](documentation/pluginCard.png "Plugin Card on Chrome extension page")
+![](documentation/pluginCard.png "Plugin Card on Chrome extension page")
 
 ### Configuration
 Before you start using the plugin, you need to fill in the todoist API key. You can get the key this way
@@ -25,17 +25,23 @@ Voila! Everything should be now ready.
 
 Options dialog contains more options for configuration
 <br/>
-![Alt text](documentation/PlugginOptions.png "Plugin options")
+![](documentation/PlugginOptions.png "Plugin options")
 
 Using the dialog you can configure templates used for creation of Todoist tasks. In default, plugin creates tasks as shown in the following picture
 <br/>
-![Alt text](documentation/TodoistInbox.png "Todoist inbox")
+![](documentation/TodoistInbox.png "Todoist inbox")
 
 As you can see, inbox contains 4 tasks - one created from email, jira issue, confluence page and generic website.
 Each task is clickable and navigates directly to the resource from which it was created (e.g. directly to email detail)
 
 You can customise the templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue.
 
+## How to use
+Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. Icon should indicate whether the task creation worked.
+<br/>
+![](documentation/taskCreation.gif "Task creation")
+<br/>
+Gmail has also an embedded button (can be disabled via plugin Options). The function of it is completely the same. It is just placed on a more convenient place in the Gmail toolbar.
 
 ### Feedback
 Any feedback welcomed! please feel free to contact me at jan.skrabal(at)wandera.com.
