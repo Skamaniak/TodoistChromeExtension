@@ -7,12 +7,16 @@
     margin: 2px 0;
 }
 
+.options .grid-item-2 {
+    margin: 2px 0;
+    grid-column-end: span 2;
+}
+
 .options .info-icon {
     margin: auto 0 auto 5px;
 }
 
 .options .full-row {
-    grid-column-start: 0;
     grid-column-end: span 3;
 }
 
@@ -23,4 +27,11 @@
 
 .options .small-text {
     font-size: 9px;
+}
+.options .hidden {
+    display: none;
+}
+
+.options .bold {
+    font-weight: bold;
 }

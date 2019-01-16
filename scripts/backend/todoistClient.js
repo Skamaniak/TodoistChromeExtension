@@ -27,10 +27,7 @@ class TodoistClient {
         });
     }
 
-    createTask(taskText) {
-        const task = {
-            "content": taskText
-        };
+    createTask(task) {
         return TodoistClient._getApiKey()
             .then((apiKey) => this._sendPost(apiKey, "https://beta.todoist.com/API/v8/tasks", task))
     }

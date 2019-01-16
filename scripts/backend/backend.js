@@ -1,7 +1,7 @@
 const createTask = (taskDefinition) => {
     top.PLUGIN_ICON.signalLoading();
     top.TASK_FORMATTER.toTodoistTask(taskDefinition)
-        .then((taskText) => top.TODOIST_CLIENT.createTask(taskText))
+        .then((task) => top.TODOIST_CLIENT.createTask(task))
         .then(() => top.PLUGIN_ICON.signalSuccess())
         .catch((error) => {
             top.PLUGIN_ICON.signalFailure();
