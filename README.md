@@ -34,7 +34,9 @@ Using the dialog you can configure templates used for creation of Todoist tasks.
 As you can see, inbox contains 4 tasks - one created from email, jira issue, confluence page and generic website.
 Each task is clickable and navigates directly to the resource from which it was created (e.g. directly to email detail)
 
-You can customise templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue. You can for example include issue type from Jira ticket or sender details from an email and much more. 
+You can customise templates as you will, each one of them has multiple parameters. To see all available parameters, hover over the question mark icon in the Options dialogue. You can for example include issue type from Jira ticket or sender details from an email and much more.
+
+There is also an option to enable reflecting of Jira ticket priority into a Todoist task.
 
 ## How to use
 Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. Icon should indicate whether the task creation succeeded.
@@ -42,6 +44,9 @@ Simple, just click the plugin icon on the plugin Chrome toolbar and that's it. I
 ![](documentation/taskCreation.gif "Task creation")
 <br/>
 Gmail has also an embedded button (can be disabled via plugin Options). The function of it is completely the same. It is just placed on a more convenient place in the Gmail toolbar.
+
+### Known Issues
+* Adding of task is not working when the Jira ticket detail is opened from RapidBoard view (it is shown in a JavaScript modal dialog). It is not possible to scrape the ticket details without a really hackish magic because all the element identifiers are randomly generated and there is no API for doing it. 
 
 ### Feedback
 Any feedback welcomed! please feel free to contact me at jan.skrabal(at)wandera.com.
