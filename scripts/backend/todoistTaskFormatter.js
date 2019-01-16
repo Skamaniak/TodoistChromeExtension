@@ -51,7 +51,7 @@ const formatWebsiteTask = (taskDefinition) => {
         .replace('$title', taskDefinition.title)
         .replace('$source', taskDefinition.source)
         .replace('$href', taskDefinition.href);
-      return content;
+      return { content };
     });
 };
 
