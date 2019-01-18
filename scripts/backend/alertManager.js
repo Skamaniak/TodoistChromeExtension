@@ -2,7 +2,7 @@ class AlertManager {
     static _getHint(error) {
         const status = error.status;
         if (status === 401 || status === 403) {
-            return "Please check your API Key. Right click to plugin icon > Options.";
+            return "Please check your API Key. Right click to plugin icon and select Options.";
         }
         if (status >= 400 && status < 500) {
             return "There is something wrong with Chrome Plugin. Please try to download new version or contact Author."

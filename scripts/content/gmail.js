@@ -1,3 +1,5 @@
+//requires MESSAGE_BUS, CONFIG_STORE
+
 const initInboxSdk = () => {
     return new Promise((resolve) => {
         InboxSDK.load(2, 'sdk_a628b78da5fe4c0_703312c6e0').then(function (sdk) {

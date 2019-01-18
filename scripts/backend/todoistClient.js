@@ -1,3 +1,5 @@
+// requires LOGGER, CONFIG_STORE
+
 class TodoistClient {
     static _getApiKey() {
         return top.CONFIG_STORE.loadConfigSection('todoist')
@@ -6,13 +8,16 @@ class TodoistClient {
 
     _sendPost(apiKey, path, body) {
         return new Promise((resolve, reject) => {
+            top.LOGGER.debug("Sending POST request to Todoist API", path, "with body", body);
             const request = new XMLHttpRequest();
             request.open("POST", path, true);
             request.setRequestHeader("Content-Type", "application/json");
             request.setRequestHeader("Authorization", "Bearer " + (apiKey || "-"));
             request.onreadystatechange = function () {
                 if (this.readyState === XMLHttpRequest.DONE) {
-                    if (request.status >= 200 && request.status < 300) {
+                    const statusCode = request.status;
+                    if (statusCode >= 200 && statusCode < 300) {
+                        top.LOGGER.debug("Request to", path, "finished successfully with status code", statusCode);
                         resolve(request.response)
                     } else {
                         reject({

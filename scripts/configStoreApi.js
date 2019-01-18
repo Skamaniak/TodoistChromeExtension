@@ -1,3 +1,5 @@
+
+// export
 top.CONFIG_STORE = top.CONFIG_STORE || {};
 top.CONFIG_STORE.loadConfig = () => {
     return new Promise((resolve) => {

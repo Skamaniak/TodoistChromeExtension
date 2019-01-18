@@ -1,0 +1,1 @@
+top.MESSAGE_BUS.TO_BACKEND.injectContentScripts();

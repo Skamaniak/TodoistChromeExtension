@@ -1,71 +1,86 @@
-const formatEmailTask = (taskDefinition) => {
-  return top.CONFIG_STORE.loadConfigSection('gmail')
-    .then((config) => {
-      const content = config.taskTemplate
-        .replace('$subject', taskDefinition.subject)
-        .replace('$source', taskDefinition.source)
-        .replace('$senderName', taskDefinition.senderName)
-        .replace('$senderEmailAddress', taskDefinition.senderEmailAddress)
-        .replace('$href', taskDefinition.href);
-      return { content };
-    });
-};
+// requires LOGGER, CONFIG_STORE
 
-const formatConfluenceTask = (taskDefinition) => {
-  return top.CONFIG_STORE.loadConfigSection('confluence')
-    .then((config) => {
-      const content = config.taskTemplate
-        .replace('$title', taskDefinition.title)
-        .replace('$source', taskDefinition.source)
-        .replace('$href', taskDefinition.href);
-      return { content };
-    });
-};
-
-const formatJiraTask = (taskDefinition) => {
-  return top.CONFIG_STORE.loadConfigSection('jira')
-    .then((config) => {
-      const content = config.taskTemplate
-        .replace('$summary', taskDefinition.summary)
-        .replace('$source', taskDefinition.source)
-        .replace('$href', taskDefinition.href)
-        .replace('$issueType', taskDefinition.issueType)
-        .replace('$reporter', taskDefinition.reporter)
-        .replace('$assignee', taskDefinition.assignee)
-        .replace('$priority', taskDefinition.priority)
-        .replace('$status', taskDefinition.status);
-
-      if (config.priorityMappingEnabled === 'true') {
-        const priority = config.priorityMapping[taskDefinition.priority];
-        return { content, priority };
-      } else {
+class TodoistTaskFormatter {
+  _formatEmailTask(taskDefinition) {
+    return top.CONFIG_STORE.loadConfigSection('gmail')
+      .then((config) => {
+        top.LOGGER.debug("Formatting task from gmail", taskDefinition);
+        const content = config.taskTemplate
+          .replace('$subject', taskDefinition.subject)
+          .replace('$source', taskDefinition.source)
+          .replace('$senderName', taskDefinition.senderName)
+          .replace('$senderEmailAddress', taskDefinition.senderEmailAddress)
+          .replace('$href', taskDefinition.href);
         return { content };
-      }
-    });
-};
+      });
+  };
 
-const formatWebsiteTask = (taskDefinition) => {
-  return top.CONFIG_STORE.loadConfigSection('website')
-    .then((config) => {
-      const content = config.taskTemplate
-        .replace('$title', taskDefinition.title)
-        .replace('$source', taskDefinition.source)
-        .replace('$href', taskDefinition.href);
-      return { content };
-    });
-};
+  _formatConfluenceTask(taskDefinition) {
+    return top.CONFIG_STORE.loadConfigSection('confluence')
+      .then((config) => {
+        top.LOGGER.debug("Formatting task from confluence", taskDefinition);
+        const content = config.taskTemplate
+          .replace('$title', taskDefinition.title)
+          .replace('$source', taskDefinition.source)
+          .replace('$href', taskDefinition.href);
+        return { content };
+      });
+  };
 
-const formatters = {
-  'Email': (taskDefinition) => formatEmailTask(taskDefinition),
-  'Confluence': (taskDefinition) => formatConfluenceTask(taskDefinition),
-  'Jira': (taskDefinition) => formatJiraTask(taskDefinition),
-  'Website': (taskDefinition) => formatWebsiteTask(taskDefinition)
-};
+  _formatJiraTask(taskDefinition) {
+    return top.CONFIG_STORE.loadConfigSection('jira')
+      .then((config) => {
+        top.LOGGER.debug("Formatting task from jira", taskDefinition);
+        const content = config.taskTemplate
+          .replace('$summary', taskDefinition.summary)
+          .replace('$source', taskDefinition.source)
+          .replace('$href', taskDefinition.href)
+          .replace('$issueType', taskDefinition.issueType)
+          .replace('$reporter', taskDefinition.reporter)
+          .replace('$assignee', taskDefinition.assignee)
+          .replace('$priority', taskDefinition.priority)
+          .replace('$status', taskDefinition.status);
+
+        if (config.priorityMappingEnabled === 'true') {
+          const priority = config.priorityMapping[taskDefinition.priority];
+          top.LOGGER.debug("Adding priority mapping", taskDefinition.priority, "to", priority);
+          return { content, priority };
+        } else {
+          return { content };
+        }
+      });
+  };
+
+  _formatWebsiteTask(taskDefinition) {
+    return top.CONFIG_STORE.loadConfigSection('website')
+      .then((config) => {
+        top.LOGGER.debug("Formatting task from generic website", taskDefinition);
+        const content = config.taskTemplate
+          .replace('$title', taskDefinition.title)
+          .replace('$source', taskDefinition.source)
+          .replace('$href', taskDefinition.href);
+        return { content };
+      });
+  };
+
+  formatters(source) {
+    const mapping = {
+      'Email': (taskDefinition) => this._formatEmailTask(taskDefinition),
+      'Confluence': (taskDefinition) => this._formatConfluenceTask(taskDefinition),
+      'Jira': (taskDefinition) => this._formatJiraTask(taskDefinition),
+      'Website': (taskDefinition) => this._formatWebsiteTask(taskDefinition)
+    };
+    return mapping[source] ;
+  };
+
+  toTodoistTask(taskDefinition) {
+    const formatter = this.formatters(taskDefinition.source);
+    return formatter(taskDefinition);
+  }
+}
+
 
 // export
 top.TASK_FORMATTER = top.TASK_FORMATTER || {};
-top.TASK_FORMATTER.toTodoistTask = (taskDefinition) => {
-  const formatter = formatters[taskDefinition.source];
-  return formatter(taskDefinition);
-};
+top.TASK_FORMATTER = new TodoistTaskFormatter();
 

@@ -6,16 +6,20 @@
     "storage",
     "activeTab",
     "declarativeContent",
-    "https://beta.todoist.com/*"
+    "http://*/",
+    "https://*/"
   ],
   "background": {
     "scripts": [
+      "scripts/logger.js",
       "scripts/configStoreInit.js",
       "scripts/configStoreApi.js",
       "scripts/messageBus.js",
 
       "scripts/backend/pluginIconController.js",
+      "scripts/backend/contentScriptInjector.js",
       "scripts/backend/alertManager.js",
+
       "scripts/backend/todoistClient.js",
       "scripts/backend/todoistTaskFormatter.js",
       "scripts/backend/backend.js"
@@ -24,47 +28,11 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://mail.google.com/*"
-      ],
-      "js": [
-        "scripts/configStoreApi.js",
-        "scripts/messageBus.js",
-        "scripts/lib/inboxsdk.js",
-        "scripts/content/gmail.js"
-      ],
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
-        "https://snappli.atlassian.net/browse/*",
-        "https://snappli.atlassian.net/secure/*"
-      ],
-      "js": [
-        "scripts/content/jira.js",
-        "scripts/messageBus.js"
-      ],
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
-        "https://snappli.atlassian.net/wiki/*"
-      ],
-      "js": [
-        "scripts/content/confluence.js",
-        "scripts/messageBus.js"
-      ],
-      "run_at": "document_end"
-    },
-    {
       "matches": ["<all_urls>"],
-      "exclude_matches": [
-        "https://mail.google.com/*",
-        "https://snappli.atlassian.net/*"
-      ],
       "js": [
-        "scripts/content/other.js",
-        "scripts/messageBus.js"
+        "scripts/logger.js",
+        "scripts/messageBus.js",
+        "scripts/content/content.js"
       ],
       "run_at": "document_end"
     }

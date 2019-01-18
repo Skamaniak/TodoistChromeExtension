@@ -1,3 +1,5 @@
+//requires MESSAGE_BUS
+
 const scrapeConfluencePageInfo = () => {
     const pageTitleElement = document.getElementById("title-text");
     if (pageTitleElement) {

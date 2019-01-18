@@ -1,3 +1,5 @@
+// requires MESSAGE_BUS
+
 const scrapeJiraTicketInfo = () => {
     const summaryElement = document.getElementById("summary-val");
     const issueKeyElement = document.getElementById("key-val");

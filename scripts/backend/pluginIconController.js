@@ -1,3 +1,5 @@
+//requires LOGGER
+
 class PluginIconController {
     _setIcon(iconPath) {
         chrome.browserAction.setIcon({
@@ -34,6 +36,7 @@ class PluginIconController {
     };
 
     _cancelPendingActions() {
+        top.LOGGER.debug("Cancelling current plugin icon timers");
         const timer = this.iconSwitchTimer;
         if (timer) {
             clearTimeout(timer);
@@ -45,19 +48,22 @@ class PluginIconController {
     }
 
     signalSuccess() {
+        top.LOGGER.debug("Setting plugin icon to success state");
         this._cancelPendingActions();
         this._setSuccessIcon();
         this.iconSwitchTimer = setTimeout(() => this._setDefaultIcon(), 2000)
     }
 
     signalFailure() {
+      top.LOGGER.debug("Setting plugin icon to failure state");
         this._cancelPendingActions();
         this._setFailureIcon();
         this.iconSwitchTimer = setTimeout(() => this._setDefaultIcon(), 2000)
     }
 
     signalLoading() {
-        this._cancelPendingActions();
+      top.LOGGER.debug("Setting plugin icon to loading indicator");
+      this._cancelPendingActions();
         this._setLoadingIndicatorIcon();
     }
 }

@@ -1,3 +1,5 @@
+// requires MESSAGE_BUS
+
 const scrapeGenericPageInfo = () => {
     const pageTitleElem = document.querySelector("title");
     const pageTitle = pageTitleElem ? pageTitleElem.textContent : "No Page Title";
