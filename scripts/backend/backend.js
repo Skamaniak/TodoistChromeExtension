@@ -6,7 +6,7 @@ const createTask = (taskDefinition) => {
     .then((task) => top.TODOIST_CLIENT.createTask(task))
     .then(() => top.PLUGIN_ICON.signalSuccess())
     .catch((error) => {
-      top.LOGGER.error("Request to Todoist failed with error", error);
+      top.LOGGER.error('Request to Todoist failed with error', error);
       top.PLUGIN_ICON.signalFailure();
       top.NOTIFICATION_MANAGER.alert(error);
     });
@@ -23,14 +23,13 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.showNotification] = (notification) => {
 actionHandlers[top.MESSAGE_BUS.ACTIONS.injectContentScripts] = (_, sender) =>
   top.CONTENT_SCRIPT_INJECTOR.injectContentScripts(sender.url, sender.tab.id);
 
-
 chrome.runtime.onMessage.addListener(function (request, sender) {
-  top.LOGGER.debug("Backend received message", request);
+  top.LOGGER.debug('Backend received message', request);
   const handler = actionHandlers[request.action];
   handler(request.payload, sender);
 });
 
 chrome.browserAction.onClicked.addListener(function () {
-  top.LOGGER.debug("Plugin icon clicked");
+  top.LOGGER.debug('Plugin icon clicked');
   top.MESSAGE_BUS.TO_FRONTEND.createTask();
 });

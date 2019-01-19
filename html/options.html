@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Todoist Extension Options</title>
-    <link rel="stylesheet" type="text/css" href="/css/options.css">
+    <link href="/css/options.css" rel="stylesheet" type="text/css">
     <script src="/scripts/configStoreApi.js"></script>
     <script src="/scripts/view/options.js"></script>
 </head>
@@ -11,49 +11,56 @@
     <div class="container">
         <h2 class="full-row">Todoist</h2>
         <label class="grid-item" for="todoistApiKey">Todoist API Key</label>
-        <input class="grid-item" id="todoistApiKey" type="password"/>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist API key. To get it please log into https://todoist.com/ then click cog icon in the top right corner > Settings > Integrations."/>
+        <input class="grid-item" id="todoistApiKey" type="password" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Todoist API key. To get it please log into https://todoist.com/ then click cog icon in the top right corner > Settings > Integrations." />
     </div>
 
-    <hr/>
+    <hr />
 
     <div class="container">
         <h2 class="full-row">Gmail</h2>
         <label class="grid-item" for="gmailTaskTemplate">Task Template</label>
-        <input class="grid-item" id="gmailTaskTemplate" placeholder="[$subject ($source)]($href)" type="text"/>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress."/>
+        <input class="grid-item" id="gmailTaskTemplate" placeholder="[$subject ($source)]($href)" type="text" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress." />
         <label class="grid-item" for="gmailEmbedButtonSelect">Todoist button</label>
         <select class="grid-item" id="gmailEmbedButtonSelect">
             <option value="true">Embed in Gmail UI</option>
             <option value="false">Do not embed</option>
         </select>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="It checked, plugin button will be embedded into Gmail message detail page."/>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="It checked, plugin button will be embedded into Gmail message detail page." />
     </div>
 
-    <hr/>
+    <hr />
 
     <div class="container">
         <h2 class="full-row">Confluence</h2>
         <label class="grid-item" for="confluenceTaskTemplate">Task Template</label>
-        <input class="grid-item" id="confluenceTaskTemplate" placeholder="[$title ($source)]($href)" type="text" required/>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $title, $source, $href."/>
+        <input class="grid-item" id="confluenceTaskTemplate" placeholder="[$title ($source)]($href)" required
+                type="text" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Todoist task template. Allowed placeholders: $title, $source, $href." />
     </div>
 
-    <hr/>
+    <hr />
 
     <div class="container">
         <h2 class="full-row">Jira</h2>
         <label class="grid-item" for="jiraTaskTemplate">Task Template</label>
-        <input class="grid-item" id="jiraTaskTemplate" placeholder="[$summary ($source)]($href)" type="text" required/>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status."/>
+        <input class="grid-item" id="jiraTaskTemplate" placeholder="[$summary ($source)]($href)" required type="text" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status." />
 
         <label class="grid-item" for="jiraReflectPriority">Reflect Priority</label>
         <select class="grid-item" id="jiraReflectPriority">
             <option value="false">No</option>
             <option value="true">Yes</option>
         </select>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Reflect Jira issue priority as Todoist task priority."/>
-        <div id="jiraPriorityMapping" class="hidden full-row container">
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Reflect Jira issue priority as Todoist task priority." />
+        <div class="hidden full-row container" id="jiraPriorityMapping">
             <h3 class="full-row">Priority Mapping</h3>
             <span class="grid-item bold">Jira Priority</span>
             <span class="grid-item-2 bold">Todoist Priority</span>
@@ -64,28 +71,28 @@
                 <option value="3">3 (Important)</option>
                 <option value="4">4 (Urgent)</option>
             </select>
-            <label for="jiraMinorPriorityMapping" class="grid-item">Minor</label>
+            <label class="grid-item" for="jiraMinorPriorityMapping">Minor</label>
             <select class="grid-item-2" id="jiraMinorPriorityMapping">
                 <option value="1">1 (Normal)</option>
                 <option value="2">2 (Elevated)</option>
                 <option value="3">3 (Important)</option>
                 <option value="4">4 (Urgent)</option>
             </select>
-            <label for="jiraMajorPriorityMapping" class="grid-item">Major</label>
+            <label class="grid-item" for="jiraMajorPriorityMapping">Major</label>
             <select class="grid-item-2" id="jiraMajorPriorityMapping">
                 <option value="1">1 (Normal)</option>
                 <option value="2">2 (Elevated)</option>
                 <option value="3">3 (Important)</option>
                 <option value="4">4 (Urgent)</option>
             </select>
-            <label for="jiraCriticalPriorityMapping" class="grid-item">Critical</label>
+            <label class="grid-item" for="jiraCriticalPriorityMapping">Critical</label>
             <select class="grid-item-2" id="jiraCriticalPriorityMapping">
                 <option value="1">1 (Normal)</option>
                 <option value="2">2 (Elevated)</option>
                 <option value="3">3 (Important)</option>
                 <option value="4">4 (Urgent)</option>
             </select>
-            <label for="jiraBlockerPriorityMapping" class="grid-item">Blocker</label>
+            <label class="grid-item" for="jiraBlockerPriorityMapping">Blocker</label>
             <select class="grid-item-2" id="jiraBlockerPriorityMapping">
                 <option value="1">1 (Normal)</option>
                 <option value="2">2 (Elevated)</option>
@@ -95,16 +102,18 @@
         </div>
     </div>
 
-    <hr/>
+    <hr />
 
     <div class="container">
         <h2 class="full-row">Generic Websites</h2>
         <label class="grid-item" for="websiteTaskTemplate">Task Template</label>
-        <input class="grid-item" id="websiteTaskTemplate" placeholder="[$title ($source)]($href)" type="text" required/>
-        <img class="grid-item info-icon" src="/images/info-icon-16.png" title="Todoist task template. Allowed placeholders: $title, $source, $href."/>
+        <input class="grid-item" id="websiteTaskTemplate" placeholder="[$title ($source)]($href)" required
+                type="text" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                title="Todoist task template. Allowed placeholders: $title, $source, $href." />
     </div>
 
-    <hr/>
+    <hr />
 
     <br>
     <div class="container">

@@ -34,7 +34,7 @@ class NotificationManager {
           this._notify(notification);
         } else {
           top.LOGGER.info('Publishing important notification', notification, 'via alert because notifications are disabled');
-          alert(notification.title + "\n" + notification.message);
+          alert(notification.title + '\n' + notification.message);
         }
       });
   }

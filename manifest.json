@@ -16,11 +16,9 @@
       "scripts/configStoreInit.js",
       "scripts/configStoreApi.js",
       "scripts/messageBus.js",
-
       "scripts/backend/pluginIconController.js",
       "scripts/backend/contentScriptInjector.js",
       "scripts/backend/alertManager.js",
-
       "scripts/backend/todoistClient.js",
       "scripts/backend/todoistTaskFormatter.js",
       "scripts/backend/backend.js"
@@ -29,7 +27,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": [
+        "<all_urls>"
+      ],
       "js": [
         "scripts/logger.js",
         "scripts/messageBus.js",

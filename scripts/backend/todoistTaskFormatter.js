@@ -1,10 +1,10 @@
 // requires LOGGER, CONFIG_STORE
 
 class TodoistTaskFormatter {
-  _formatEmailTask(taskDefinition) {
+  _formatEmailTask (taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('gmail')
       .then((config) => {
-        top.LOGGER.debug("Formatting task from gmail", taskDefinition);
+        top.LOGGER.debug('Formatting task from gmail', taskDefinition);
         const content = config.taskTemplate
           .replace('$subject', taskDefinition.subject)
           .replace('$source', taskDefinition.source)
@@ -15,10 +15,10 @@ class TodoistTaskFormatter {
       });
   };
 
-  _formatConfluenceTask(taskDefinition) {
+  _formatConfluenceTask (taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('confluence')
       .then((config) => {
-        top.LOGGER.debug("Formatting task from confluence", taskDefinition);
+        top.LOGGER.debug('Formatting task from confluence', taskDefinition);
         const content = config.taskTemplate
           .replace('$title', taskDefinition.title)
           .replace('$source', taskDefinition.source)
@@ -27,10 +27,10 @@ class TodoistTaskFormatter {
       });
   };
 
-  _formatJiraTask(taskDefinition) {
+  _formatJiraTask (taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('jira')
       .then((config) => {
-        top.LOGGER.debug("Formatting task from jira", taskDefinition);
+        top.LOGGER.debug('Formatting task from jira', taskDefinition);
         const content = config.taskTemplate
           .replace('$summary', taskDefinition.summary)
           .replace('$source', taskDefinition.source)
@@ -43,7 +43,7 @@ class TodoistTaskFormatter {
 
         if (config.priorityMappingEnabled === 'true') {
           const priority = config.priorityMapping[taskDefinition.priority];
-          top.LOGGER.debug("Adding priority mapping", taskDefinition.priority, "to", priority);
+          top.LOGGER.debug('Adding priority mapping', taskDefinition.priority, 'to', priority);
           return { content, priority };
         } else {
           return { content };
@@ -51,10 +51,10 @@ class TodoistTaskFormatter {
       });
   };
 
-  _formatWebsiteTask(taskDefinition) {
+  _formatWebsiteTask (taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('website')
       .then((config) => {
-        top.LOGGER.debug("Formatting task from generic website", taskDefinition);
+        top.LOGGER.debug('Formatting task from generic website', taskDefinition);
         const content = config.taskTemplate
           .replace('$title', taskDefinition.title)
           .replace('$source', taskDefinition.source)
@@ -63,22 +63,21 @@ class TodoistTaskFormatter {
       });
   };
 
-  formatters(source) {
+  formatters (source) {
     const mapping = {
       'Email': (taskDefinition) => this._formatEmailTask(taskDefinition),
       'Confluence': (taskDefinition) => this._formatConfluenceTask(taskDefinition),
       'Jira': (taskDefinition) => this._formatJiraTask(taskDefinition),
       'Website': (taskDefinition) => this._formatWebsiteTask(taskDefinition)
     };
-    return mapping[source] ;
+    return mapping[source];
   };
 
-  toTodoistTask(taskDefinition) {
+  toTodoistTask (taskDefinition) {
     const formatter = this.formatters(taskDefinition.source);
     return formatter(taskDefinition);
   }
 }
-
 
 // export
 top.TASK_FORMATTER = top.TASK_FORMATTER || {};
