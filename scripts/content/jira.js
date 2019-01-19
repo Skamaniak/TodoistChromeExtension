@@ -35,6 +35,10 @@ chrome.runtime.onMessage.addListener(() => {
     if (taskDefinition) {
         messageBus.createTask(taskDefinition);
     } else {
-        messageBus.actionCurrentlyUnavailable();
+      messageBus.showNotification({
+        iconUrl: "images/info-icon-128.png",
+        title: "Cannot create Todoist task",
+        message: "Please open a Jira issue first"
+      });
     }
 });

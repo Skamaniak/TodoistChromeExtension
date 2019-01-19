@@ -19,7 +19,7 @@ class MessagBus {
 const messageBus = new MessagBus();
 const actions = {
   createTask: 'CREATE_TASK',
-  actionCurrentlyUnavailable: 'ACTION_CURRENTLY_UNAVAILABLE',
+  showNotification: 'SHOW_NOTIFICATION',
   injectContentScripts: 'INJECT_CONTENT_SCRIPTS'
 };
 
@@ -27,9 +27,13 @@ top.MESSAGE_BUS = top.MESSAGE_BUS || {};
 top.MESSAGE_BUS.ACTIONS = actions;
 
 top.MESSAGE_BUS.TO_BACKEND = top.MESSAGE_BUS.TO_BACKEND || {};
-top.MESSAGE_BUS.TO_BACKEND.createTask = (taskDefinition) => messageBus.sendMessageToBackend(actions.createTask, taskDefinition);
-top.MESSAGE_BUS.TO_BACKEND.actionCurrentlyUnavailable = () => messageBus.sendMessageToBackend(actions.actionCurrentlyUnavailable);
-top.MESSAGE_BUS.TO_BACKEND.injectContentScripts = () => messageBus.sendMessageToBackend(actions.injectContentScripts);
+top.MESSAGE_BUS.TO_BACKEND.createTask =
+  (taskDefinition) => messageBus.sendMessageToBackend(actions.createTask, taskDefinition);
+top.MESSAGE_BUS.TO_BACKEND.showNotification =
+  (notification) => messageBus.sendMessageToBackend(actions.showNotification, notification);
+top.MESSAGE_BUS.TO_BACKEND.injectContentScripts =
+  () => messageBus.sendMessageToBackend(actions.injectContentScripts);
 
 top.MESSAGE_BUS.TO_FRONTEND = top.MESSAGE_BUS.TO_FRONTEND || {};
-top.MESSAGE_BUS.TO_FRONTEND.createTask = () => messageBus.sendMessageToFrontend(actions.createTask);
+top.MESSAGE_BUS.TO_FRONTEND.createTask =
+  () => messageBus.sendMessageToFrontend(actions.createTask);

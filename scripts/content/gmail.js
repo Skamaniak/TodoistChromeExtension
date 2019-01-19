@@ -52,7 +52,11 @@ const registerBackendMessageBus = () => {
             if (taskDefinition) {
                 messageBus.createTask(taskDefinition);
             } else {
-                messageBus.actionCurrentlyUnavailable();
+              messageBus.showNotification({
+                iconUrl: "images/info-icon-128.png",
+                title: "Cannot create Todoist task",
+                message: "Please open an email detail first"
+              });
             }
         });
         resolve();
