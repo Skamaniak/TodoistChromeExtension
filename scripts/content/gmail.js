@@ -36,7 +36,7 @@ const addTodoistButton = (sdk) => {
         sdk.Toolbars.registerThreadButton({
           title: 'Add to Todoist',
           positions: ['THREAD'],
-          iconUrl: 'https://github.com/Skamaniak/TodoistChromeExtension/blob/master/images/todoist-icon-32.png?raw=true',
+          iconUrl: 'https://github.com/Skamaniak/TodoistChromeExtension/blob/master/images/plugin-icon-32.png?raw=true',
           onClick: function () {
             top.MESSAGE_BUS.TO_BACKEND.createTask(taskDefinition);
           }
