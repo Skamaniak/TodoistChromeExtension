@@ -32,7 +32,7 @@ class PluginIconController {
   }
 
   _setDefaultIcon () {
-    this._setIcon('images/todoist-icon-32.png');
+    this._setIcon('images/plugin-icon-32.png');
   }
 
   _setLoadingIndicatorIcon () {

@@ -44,15 +44,15 @@
   },
   "browser_action": {
     "default_icon": {
-      "32": "images/todoist-icon-32.png",
-      "64": "images/todoist-icon-64.png",
-      "128": "images/todoist-icon-128.png"
+      "32": "images/plugin-icon-32.png",
+      "64": "images/plugin-icon-64.png",
+      "128": "images/plugin-icon-128.png"
     }
   },
   "icons": {
-    "32": "images/todoist-icon-32.png",
-    "64": "images/todoist-icon-64.png",
-    "128": "images/todoist-icon-128.png"
+    "32": "images/plugin-icon-32.png",
+    "64": "images/plugin-icon-64.png",
+    "128": "images/plugin-icon-128.png"
   },
   "manifest_version": 2
 }
