@@ -13,18 +13,22 @@ const defaultConfig = {
   },
   gmail: {
     taskTemplate: '[$subject ($source)]($href)',
-    embedButton: 'true'
+    embedButton: 'true',
+    regexIdentifier: '^https:\\/\\/mail\\.google\\.com'
   },
   confluence: {
-    taskTemplate: '[$title ($source)]($href)'
+    taskTemplate: '[$title ($source)]($href)',
+    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/wiki\\/'
   },
   jira: {
     taskTemplate: '[$summary ($source)]($href)',
     priorityMappingEnabled: 'false',
-    priorityMapping: JIRA_PRIORITY_MAPPING
+    priorityMapping: JIRA_PRIORITY_MAPPING,
+    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/'
   },
   website: {
-    taskTemplate: '[$title ($source)]($href)'
+    taskTemplate: '[$title ($source)]($href)',
+    regexIdentifier: '.*'
   }
 };
 

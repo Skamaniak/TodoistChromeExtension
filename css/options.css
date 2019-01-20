@@ -1,3 +1,7 @@
+.options .actions {
+    margin-top: 10px;
+}
+
 .options .container {
     display: grid;
     grid-template-columns: 100px auto 21px;
@@ -29,7 +33,7 @@
     font-size: 9px;
 }
 
-.options .hidden {
+.options .hidden, .options .locked {
     display: none;
 }
 

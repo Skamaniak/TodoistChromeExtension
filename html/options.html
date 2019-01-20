@@ -21,16 +21,22 @@
     <div class="container">
         <h2 class="full-row">Gmail</h2>
         <label class="grid-item" for="gmailTaskTemplate">Task Template</label>
-        <input class="grid-item" id="gmailTaskTemplate" placeholder="[$subject ($source)]($href)" type="text" />
+        <input class="grid-item" id="gmailTaskTemplate" placeholder="e.g. [$subject ($source)]($href)" type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress." />
-        <label class="grid-item" for="gmailEmbedButtonSelect">Todoist button</label>
+        <label class="grid-item" for="gmailEmbedButtonSelect">Todoist Button</label>
         <select class="grid-item" id="gmailEmbedButtonSelect">
             <option value="true">Embed in Gmail UI</option>
             <option value="false">Do not embed</option>
         </select>
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="It checked, plugin button will be embedded into Gmail message detail page." />
+
+        <label class="grid-item locked" for="gmailRegexIdentifier">
+            <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
+        </label>
+        <input class="grid-item locked" id="gmailRegexIdentifier" placeholder="e.g. ^https:\/\/mail\.google\.com" type="text" />
+        <img class="grid-item info-icon locked" src="/images/info-icon-16.png" title="URL Regex used for identifying Gmail website." />
     </div>
 
     <hr />
@@ -38,10 +44,16 @@
     <div class="container">
         <h2 class="full-row">Confluence</h2>
         <label class="grid-item" for="confluenceTaskTemplate">Task Template</label>
-        <input class="grid-item" id="confluenceTaskTemplate" placeholder="[$title ($source)]($href)" required
+        <input class="grid-item" id="confluenceTaskTemplate" placeholder="e.g. [$title ($source)]($href)" required
                 type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="Todoist task template. Allowed placeholders: $title, $source, $href." />
+
+        <label class="grid-item locked" for="confluenceRegexIdentifier">
+            <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
+        </label>
+        <input class="grid-item locked" id="confluenceRegexIdentifier" placeholder="e.g. ^https:\/\/[^.]+\.atlassian\.net\/wiki\/" type="text" />
+        <img class="grid-item info-icon locked" src="/images/info-icon-16.png" title="URL Regex used for identifying Confluence website." />
     </div>
 
     <hr />
@@ -49,7 +61,7 @@
     <div class="container">
         <h2 class="full-row">Jira</h2>
         <label class="grid-item" for="jiraTaskTemplate">Task Template</label>
-        <input class="grid-item" id="jiraTaskTemplate" placeholder="[$summary ($source)]($href)" required type="text" />
+        <input class="grid-item" id="jiraTaskTemplate" placeholder="e.g. [$summary ($source)]($href)" required type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status." />
 
@@ -100,6 +112,12 @@
                 <option value="4">4 (Urgent)</option>
             </select>
         </div>
+
+        <label class="grid-item locked" for="jiraRegexIdentifier">
+            <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
+        </label>
+        <input class="grid-item locked" id="jiraRegexIdentifier" placeholder="e.g. ^https:\/\/[^.]+\.atlassian\.net\/" type="text" />
+        <img class="grid-item info-icon locked" src="/images/info-icon-16.png" title="URL Regex used for identifying Jira website." />
     </div>
 
     <hr />
@@ -107,16 +125,23 @@
     <div class="container">
         <h2 class="full-row">Generic Websites</h2>
         <label class="grid-item" for="websiteTaskTemplate">Task Template</label>
-        <input class="grid-item" id="websiteTaskTemplate" placeholder="[$title ($source)]($href)" required
+        <input class="grid-item" id="websiteTaskTemplate" placeholder="e.g. [$title ($source)]($href)" required
                 type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="Todoist task template. Allowed placeholders: $title, $source, $href." />
+        <label class="grid-item locked" for="websiteRegexIdentifier">
+            <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
+        </label>
+        <input class="grid-item locked" id="websiteRegexIdentifier" placeholder="e.g. .*" type="text" />
+        <img class="grid-item info-icon locked" src="/images/info-icon-16.png" title="URL Regex used for identifying generic websites." />
     </div>
 
     <hr />
 
+    <a class="full-row" id="showAdvancedOptions" href="">Show advanced options...</a>
+
     <br>
-    <div class="container">
+    <div class="container actions">
         <button class="grid-item" id="saveButton">Save</button>
         <p class="status-text grid-item" id="responseText"></p>
     </div>

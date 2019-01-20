@@ -20,3 +20,12 @@ top.CONFIG_STORE.storeConfig = (configuration) => {
     });
   });
 };
+
+top.CONFIG_STORE.addOnChangeListener = (listener) => {
+  chrome.storage.onChanged.addListener(function(changes) {
+    const change = changes['configuration'];
+    if (change) {
+      listener(change.newValue, change.oldValue);
+    }
+  });
+};

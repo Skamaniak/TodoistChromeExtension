@@ -1,7 +1,7 @@
 let currentTimeout;
 const showConfigSaved = () => {
   const responseTextElem = document.getElementById('responseText');
-  responseTextElem.textContent = 'Configuration successfully saved';
+  responseTextElem.textContent = 'Configuration saved';
   if (currentTimeout) {
     clearTimeout(currentTimeout);
   }
@@ -18,10 +18,12 @@ window.onload = () => {
     },
     GMAIL: {
       taskTemplate: document.getElementById('gmailTaskTemplate'),
-      embedButton: document.getElementById('gmailEmbedButtonSelect')
+      embedButton: document.getElementById('gmailEmbedButtonSelect'),
+      regexIdentifier: document.getElementById('gmailRegexIdentifier')
     },
     CONFLUENCE: {
-      taskTemplate: document.getElementById('confluenceTaskTemplate')
+      taskTemplate: document.getElementById('confluenceTaskTemplate'),
+      regexIdentifier: document.getElementById('confluenceRegexIdentifier')
     },
     JIRA: {
       taskTemplate: document.getElementById('jiraTaskTemplate'),
@@ -32,10 +34,16 @@ window.onload = () => {
       minorPriority: document.getElementById('jiraMinorPriorityMapping'),
       majorPriority: document.getElementById('jiraMajorPriorityMapping'),
       criticalPriority: document.getElementById('jiraCriticalPriorityMapping'),
-      blockerPriority: document.getElementById('jiraBlockerPriorityMapping')
+      blockerPriority: document.getElementById('jiraBlockerPriorityMapping'),
+      regexIdentifier: document.getElementById('jiraRegexIdentifier')
     },
     WEBSITE: {
-      taskTemplate: document.getElementById('websiteTaskTemplate')
+      taskTemplate: document.getElementById('websiteTaskTemplate'),
+      regexIdentifier: document.getElementById('websiteRegexIdentifier')
+
+    },
+    ADVANCED: {
+      showAdvancedOptions: document.getElementById('showAdvancedOptions')
     }
   };
 
@@ -45,17 +53,30 @@ window.onload = () => {
       sectionElement.classList.add('hidden');
   };
 
+  const showAdvancedOptions = (e) => {
+    document.querySelectorAll('.locked')
+      .forEach((elem) => elem.classList.remove('locked'));
+    ELEMS.ADVANCED.showAdvancedOptions.classList.add('hidden');
+    e.preventDefault();
+  };
+
   const todoistPriorityFromString = (strValue) => {
     const priority = parseInt(strValue);
     return (priority && priority > 0 && priority < 5) ? priority : top.DEFAULTS.DEFAULT_TODOIST_PRIORITY;
   };
 
+  // Initial config load and data population
   top.CONFIG_STORE.loadConfig()
     .then((config) => {
       const priorityMapping = config.jira.priorityMapping;
       ELEMS.TODOIST.apiKey.value = config.todoist.todoistApiKey;
+
       ELEMS.GMAIL.taskTemplate.value = config.gmail.taskTemplate;
+      ELEMS.GMAIL.regexIdentifier.value = config.gmail.regexIdentifier;
+
       ELEMS.CONFLUENCE.taskTemplate.value = config.confluence.taskTemplate;
+      ELEMS.CONFLUENCE.regexIdentifier.value = config.confluence.regexIdentifier;
+
       ELEMS.JIRA.taskTemplate.value = config.jira.taskTemplate;
       ELEMS.JIRA.priorityMappingEnabled.value = config.jira.priorityMappingEnabled;
       ELEMS.JIRA.trivialPriority.value = priorityMapping['Trivial'];
@@ -63,11 +84,15 @@ window.onload = () => {
       ELEMS.JIRA.majorPriority.value = priorityMapping['Major'];
       ELEMS.JIRA.criticalPriority.value = priorityMapping['Critical'];
       ELEMS.JIRA.blockerPriority.value = priorityMapping['Blocker'];
+      ELEMS.JIRA.regexIdentifier.value = config.jira.regexIdentifier;
+
       ELEMS.WEBSITE.taskTemplate.value = config.website.taskTemplate;
+      ELEMS.WEBSITE.regexIdentifier.value = config.website.regexIdentifier;
 
       refreshMappingEnabledState();
     });
 
+  // Listeners
   ELEMS.ACTIONS.save.onclick = () => {
     const jiraPriorities = {
       'Trivial': todoistPriorityFromString(ELEMS.JIRA.trivialPriority.value),
@@ -83,18 +108,22 @@ window.onload = () => {
       },
       gmail: {
         taskTemplate: ELEMS.GMAIL.taskTemplate.value,
-        embedButton: ELEMS.GMAIL.embedButton.value
+        embedButton: ELEMS.GMAIL.embedButton.value,
+        regexIdentifier: ELEMS.GMAIL.regexIdentifier.value
       },
       confluence: {
-        taskTemplate: ELEMS.CONFLUENCE.taskTemplate.value
+        taskTemplate: ELEMS.CONFLUENCE.taskTemplate.value,
+        regexIdentifier: ELEMS.CONFLUENCE.regexIdentifier.value
       },
       jira: {
         taskTemplate: ELEMS.JIRA.taskTemplate.value,
         priorityMappingEnabled: ELEMS.JIRA.priorityMappingEnabled.value,
-        priorityMapping: jiraPriorities
+        priorityMapping: jiraPriorities,
+        regexIdentifier: ELEMS.JIRA.regexIdentifier.value
       },
       website: {
-        taskTemplate: ELEMS.WEBSITE.taskTemplate.value
+        taskTemplate: ELEMS.WEBSITE.taskTemplate.value,
+        regexIdentifier: ELEMS.WEBSITE.regexIdentifier.value
       }
     };
     top.CONFIG_STORE.storeConfig(config)
@@ -102,4 +131,5 @@ window.onload = () => {
   };
 
   ELEMS.JIRA.reflectPriority.onchange = refreshMappingEnabledState;
+  ELEMS.ADVANCED.showAdvancedOptions.onclick = showAdvancedOptions;
 };
