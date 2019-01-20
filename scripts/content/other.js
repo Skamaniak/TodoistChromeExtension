@@ -5,7 +5,7 @@ const scrapeGenericPageInfo = () => {
   const pageTitle = pageTitleElem ? pageTitleElem.textContent : 'No Page Title';
   return {
     source: 'Website',
-    title: pageTitle,
+    title: pageTitle.trim(),
     href: top.location.href
   };
 };
