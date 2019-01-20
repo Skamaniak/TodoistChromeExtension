@@ -1,6 +1,6 @@
 {
   "name": "Todoist for Everything",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Todoist Extension for reporting tasks from common Wandera tools like Gmail, Slack, Jira, Confluence and it also supports creating tasks from any generic website. Some icons were made by [Smashicons|https://www.flaticon.com/authors/smashicons] from www.flaticon.com",
   "permissions": [
     "storage",
