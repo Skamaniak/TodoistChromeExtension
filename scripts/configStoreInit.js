@@ -11,23 +11,26 @@ const defaultConfig = {
   todoist: {
     todoistApiKey: ''
   },
+  popup: {
+    timeoutMs: 2000
+  },
   gmail: {
-    taskTemplate: '[$subject ($source)]($href)',
+    taskTemplate: '$message [$subject ($source)]($href)',
     embedButton: 'true',
     regexIdentifier: '^https:\\/\\/mail\\.google\\.com'
   },
   confluence: {
-    taskTemplate: '[$title ($source)]($href)',
+    taskTemplate: '$message [$title ($source)]($href)',
     regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/wiki\\/'
   },
   jira: {
-    taskTemplate: '[$summary ($source)]($href)',
+    taskTemplate: '$message [$summary ($source)]($href)',
     priorityMappingEnabled: 'false',
     priorityMapping: JIRA_PRIORITY_MAPPING,
     regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/'
   },
   website: {
-    taskTemplate: '[$title ($source)]($href)',
+    taskTemplate: '$message [$title ($source)]($href)',
     regexIdentifier: '.*'
   }
 };

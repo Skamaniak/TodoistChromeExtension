@@ -21,6 +21,7 @@
       "scripts/backend/alertManager.js",
       "scripts/backend/todoistClient.js",
       "scripts/backend/todoistTaskFormatter.js",
+      "scripts/backend/todoistProjectProvider.js",
       "scripts/backend/backend.js"
     ],
     "persistent": false
@@ -43,6 +44,7 @@
     "open_in_tab": false
   },
   "browser_action": {
+    "default_popup": "html/popup.html",
     "default_icon": {
       "32": "images/plugin-icon-32.png",
       "64": "images/plugin-icon-64.png",

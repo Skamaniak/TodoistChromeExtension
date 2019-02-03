@@ -16,6 +16,9 @@ window.onload = () => {
     TODOIST: {
       apiKey: document.getElementById('todoistApiKey')
     },
+    POPUP: {
+      timeout: document.getElementById('popupTimeout')
+    },
     GMAIL: {
       taskTemplate: document.getElementById('gmailTaskTemplate'),
       embedButton: document.getElementById('gmailEmbedButtonSelect'),
@@ -71,6 +74,8 @@ window.onload = () => {
       const priorityMapping = config.jira.priorityMapping;
       ELEMS.TODOIST.apiKey.value = config.todoist.todoistApiKey;
 
+      ELEMS.POPUP.timeout.value = config.popup.timeoutMs;
+
       ELEMS.GMAIL.taskTemplate.value = config.gmail.taskTemplate;
       ELEMS.GMAIL.regexIdentifier.value = config.gmail.regexIdentifier;
 
@@ -105,6 +110,9 @@ window.onload = () => {
     const config = {
       todoist: {
         todoistApiKey: ELEMS.TODOIST.apiKey.value
+      },
+      popup: {
+        timeoutMs: ELEMS.POPUP.timeout.value
       },
       gmail: {
         taskTemplate: ELEMS.GMAIL.taskTemplate.value,

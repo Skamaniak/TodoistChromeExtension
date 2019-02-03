@@ -26,7 +26,7 @@ class ContentScriptInjector {
     this.orderedInjectors = [gmailInjector, confluenceInjector, jiraInjector, genericWebsiteInjector];
   }
 
-  static fromConfig(config) {
+  static fromConfig (config) {
     const gmailUrlRegex = new RegExp(config.gmail.regexIdentifier);
     const confluenceUrlRegex = new RegExp(config.confluence.regexIdentifier);
     const jiraUrlRegex = new RegExp(config.jira.regexIdentifier);
@@ -63,10 +63,12 @@ class ContentScriptInjector {
 // Create from configuration and then reload on config change
 top.CONFIG_STORE.loadConfig()
   .then((config) => {
-    top.CONTENT_SCRIPT_INJECTOR = ContentScriptInjector.fromConfig(config);
-    top.LOGGER.debug("Content script injector initialized");
+    if (config) {
+      top.CONTENT_SCRIPT_INJECTOR = ContentScriptInjector.fromConfig(config);
+      top.LOGGER.debug('Content script injector initialized');
+    }
   });
 top.CONFIG_STORE.addOnChangeListener((newConfig) => {
   top.CONTENT_SCRIPT_INJECTOR = ContentScriptInjector.fromConfig(newConfig);
-  top.LOGGER.debug("Content script injector reinitialized on config change");
+  top.LOGGER.debug('Content script injector reinitialized on config change');
 });

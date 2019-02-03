@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+}
+
+.popup {
+    margin: 8px;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup .actions {
+    padding-top: 8px;
+}
+
+.popup .pull-right {
+    float: right;
+}

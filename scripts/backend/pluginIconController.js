@@ -1,4 +1,4 @@
-//requires LOGGER
+//requires LOGGER, CONFIG_STORE
 
 class PluginIconController {
   _setIcon (iconPath) {
@@ -9,12 +9,16 @@ class PluginIconController {
     });
   };
 
-  _animateIcon (animPath, frames, cycleLength) {
+  _animateIcon (animPath, frames, cycleLength, loop = true) {
     const delay = cycleLength / frames;
     let frame = 0;
     const setNextFrame = () => {
       this._setIcon(animPath.replace('%frame', frame));
-      frame = (frame + 1) % (frames - 1);
+      frame = (frame + 1) % frames;
+
+      if (!loop && frame === 0) {
+        this._cancelPendingActions();
+      }
     };
     this.animationInterval = setInterval(setNextFrame, delay);
   };
@@ -37,6 +41,12 @@ class PluginIconController {
 
   _setLoadingIndicatorIcon () {
     this._animateIcon('images/animation/spinner/spinner-32-f%frame.gif', 12, 1000);
+  };
+
+  _setWaitingIndicatorIcon () {
+    top.CONFIG_STORE.loadConfigSection('popup').then((popup) => {
+      this._animateIcon('images/animation/loader/progress-32-f%frame.png', 51, popup.timeoutMs, false);
+    });
   };
 
   _cancelPendingActions () {
@@ -76,6 +86,18 @@ class PluginIconController {
     top.LOGGER.debug('Setting plugin icon to loading indicator');
     this._cancelPendingActions();
     this._setLoadingIndicatorIcon();
+  }
+
+  signalWaiting () {
+    top.LOGGER.debug('Setting plugin icon to waiting indicator');
+    this._cancelPendingActions();
+    this._setWaitingIndicatorIcon();
+  }
+
+  clearSignal () {
+    top.LOGGER.debug('Resetting plugin icon');
+    this._cancelPendingActions();
+    this._setDefaultIcon();
   }
 }
 

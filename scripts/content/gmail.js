@@ -47,15 +47,21 @@ const addTodoistButton = (sdk) => {
 
 const registerBackendMessageBus = () => {
   return new Promise((resolve) => {
-    chrome.runtime.onMessage.addListener(() => {
-      let messageBus = top.MESSAGE_BUS.TO_BACKEND;
+    chrome.runtime.onMessage.addListener((_1, _2, sendResponse) => {
       if (taskDefinition) {
-        messageBus.createTask(taskDefinition);
+        sendResponse({
+          success: true,
+          taskDefinition
+        });
       } else {
-        messageBus.showNotification({
+        const notification = {
           iconUrl: 'images/info-icon-128.png',
           title: 'Cannot create Todoist task',
           message: 'Please open an email detail first'
+        };
+        sendResponse({
+          success: false,
+          notification
         });
       }
     });

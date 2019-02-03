@@ -12,17 +12,24 @@ const scrapeConfluencePageInfo = () => {
   return null;
 };
 
-chrome.runtime.onMessage.addListener(() => {
-  let messageBus = top.MESSAGE_BUS.TO_BACKEND;
+chrome.runtime.onMessage.addListener((_1, _2, sendResponse) => {
   const taskDefinition = scrapeConfluencePageInfo();
 
   if (taskDefinition) {
-    messageBus.createTask(taskDefinition);
+    sendResponse({
+      success: true,
+      taskDefinition
+    });
   } else {
-    messageBus.showNotification({
+    const notification = {
       iconUrl: 'images/info-icon-128.png',
       title: 'Cannot create Todoist task',
       message: 'Please navigate to some Confluence page first'
+    };
+
+    sendResponse({
+      success: false,
+      notification
     });
   }
 });

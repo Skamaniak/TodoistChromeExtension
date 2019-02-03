@@ -10,8 +10,14 @@ class TodoistTaskFormatter {
           .replace('$source', taskDefinition.source)
           .replace('$senderName', taskDefinition.senderName)
           .replace('$senderEmailAddress', taskDefinition.senderEmailAddress)
-          .replace('$href', taskDefinition.href);
-        return { content };
+          .replace('$href', taskDefinition.href)
+          .replace('$message', taskDefinition.message || '');
+
+        const task = { content };
+        if (taskDefinition.projectId) {
+          task['project_id'] = taskDefinition.projectId;
+        }
+        return task;
       });
   };
 
@@ -22,8 +28,14 @@ class TodoistTaskFormatter {
         const content = config.taskTemplate
           .replace('$title', taskDefinition.title)
           .replace('$source', taskDefinition.source)
-          .replace('$href', taskDefinition.href);
-        return { content };
+          .replace('$href', taskDefinition.href)
+          .replace('$message', taskDefinition.message || '');
+
+        const task = { content };
+        if (taskDefinition.projectId) {
+          task['project_id'] = taskDefinition.projectId;
+        }
+        return task;
       });
   };
 
@@ -39,15 +51,19 @@ class TodoistTaskFormatter {
           .replace('$reporter', taskDefinition.reporter)
           .replace('$assignee', taskDefinition.assignee)
           .replace('$priority', taskDefinition.priority)
-          .replace('$status', taskDefinition.status);
+          .replace('$status', taskDefinition.status)
+          .replace('$message', taskDefinition.message || '');
 
+        const task = { content };
         if (config.priorityMappingEnabled === 'true') {
           const priority = config.priorityMapping[taskDefinition.priority];
           top.LOGGER.debug('Adding priority mapping', taskDefinition.priority, 'to', priority);
-          return { content, priority };
-        } else {
-          return { content };
+          task['priority'] = priority;
         }
+        if (taskDefinition.projectId) {
+          task['project_id'] = taskDefinition.projectId;
+        }
+        return task;
       });
   };
 
@@ -58,8 +74,14 @@ class TodoistTaskFormatter {
         const content = config.taskTemplate
           .replace('$title', taskDefinition.title)
           .replace('$source', taskDefinition.source)
-          .replace('$href', taskDefinition.href);
-        return { content };
+          .replace('$href', taskDefinition.href)
+          .replace('$message', taskDefinition.message || '');
+
+        const task = { content };
+        if (taskDefinition.projectId) {
+          task['project_id'] = taskDefinition.projectId;
+        }
+        return task;
       });
   };
 

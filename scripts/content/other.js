@@ -10,8 +10,11 @@ const scrapeGenericPageInfo = () => {
   };
 };
 
-chrome.runtime.onMessage.addListener(() => {
-  let messageBus = top.MESSAGE_BUS.TO_BACKEND;
+chrome.runtime.onMessage.addListener((_1, _2, sendResponse) => {
   const taskDefinition = scrapeGenericPageInfo();
-  messageBus.createTask(taskDefinition);
+
+  sendResponse({
+    success: true,
+    taskDefinition
+  });
 });
