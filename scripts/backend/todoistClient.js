@@ -65,7 +65,7 @@ class TodoistClient {
 
   static hasApiKey () {
     return TodoistClient._getApiKey()
-      .then((apiKey) => apiKey !== '' )
+      .then((apiKey) => apiKey && apiKey !== '' )
   }
 }
 

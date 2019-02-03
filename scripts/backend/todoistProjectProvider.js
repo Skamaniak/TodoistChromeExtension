@@ -53,7 +53,7 @@ class TodoistProjectProvider {
         }
       })
       .catch((err) => {
-        top.LOGGER.error('Unexpected error happened', err, ', trying again in', instance.backOffTimeoutMs, 'ms...');
+        top.LOGGER.error('Unexpected error happened', err, ', trying again in', this.backOffTimeoutMs, 'ms...');
         this._reschedule();
       });
   }

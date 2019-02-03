@@ -104,4 +104,3 @@ class TodoistTaskFormatter {
 // export
 top.TASK_FORMATTER = top.TASK_FORMATTER || {};
 top.TASK_FORMATTER = new TodoistTaskFormatter();
-

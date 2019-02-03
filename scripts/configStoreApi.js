@@ -10,7 +10,7 @@ top.CONFIG_STORE.loadConfig = () => {
 
 top.CONFIG_STORE.loadConfigSection = (section) => {
   return top.CONFIG_STORE.loadConfig()
-    .then((configuration) => configuration[section]);
+    .then((configuration) => configuration ? configuration[section] : {});
 };
 
 top.CONFIG_STORE.storeConfig = (configuration) => {

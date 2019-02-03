@@ -1,0 +1,166 @@
+<!--The code is ugly but it serves its purpose. Nothing from this is included in the plugin itself-->
+
+<html>
+<head>
+    <style>
+        span {
+            width: 32px;
+            display: inline-block;
+            padding-right: 5px;
+        }
+        img {
+            border-style: solid;
+            border-width: 1px;
+        }
+    </style>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+</head>
+<body>
+<div id="svg"></div>
+<div id="canvases"></div>
+<div id="images"></div>
+<button id="download">Download</button>
+<script>
+
+  $(function () {
+    let counter = 0;
+
+    const createSvgElement = (ordinal) => {
+      const svgElement = `
+        <svg id="svg` + ordinal + `" width="32px" height="32px" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet">
+            <circle cx="400" cy="400" r="300" fill="#fff" fill-opacity="0" />
+            <g id="arcs` + ordinal + `" transform=" translate(400 400) rotate(-90) scale(1 -1)">
+            </g>
+            <circle cx="400" cy="400" r="100" fill="#fff" />
+        </svg>
+      `;
+      const newSpan = document.createElement("span");
+      newSpan.innerHTML = svgElement;
+      document.getElementById('svg').appendChild(newSpan);
+    };
+
+    const createCanvasElement = (ordinal) => {
+      const newSpan = document.createElement("span");
+      newSpan.innerHTML = `<canvas id="canvas` + ordinal +`" width="32px" height="32px"></canvas>`;
+      document.getElementById('canvases').appendChild(newSpan);
+    };
+
+    const createImageElement = (ordinal) => {
+      const newSpan = document.createElement("span");
+      newSpan.id = "png-container" + ordinal;
+      document.getElementById('images').appendChild(newSpan);
+    };
+
+    const toImage = (ordinal) => {
+      // to canvas and then to png
+      var svgString = new XMLSerializer().serializeToString(document.getElementById('svg' + ordinal));
+
+      var canvas = document.getElementById('canvas' + ordinal);
+      var ctx = canvas.getContext('2d');
+      var DOMURL = self.URL || self.webkitURL || self;
+      var img = new Image();
+      var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      var url = DOMURL.createObjectURL(svg);
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+        var png = canvas.toDataURL('image/png');
+        document.getElementById('png-container' + ordinal).innerHTML = '<img src="' + png + '"/>';
+        DOMURL.revokeObjectURL(png);
+      };
+      img.src = url;
+    };
+
+    const draw = (percentage) => {
+      const ordinal = counter++;
+      createSvgElement(ordinal);
+      createCanvasElement(ordinal);
+      createImageElement(ordinal);
+
+      var perc = (percentage / 50) * Math.PI;
+      update();
+      function update () {
+        $('<path />')
+          .attr('d', createSvgArc(0, 0, 400, 0, perc))
+          .attr('fill', '#d34f3c')
+          .appendTo($('#arcs' + ordinal));
+        $('#arcs' + ordinal).html($('#arcs' + ordinal).html());
+      }
+
+      function createSvgArc (x, y, r, startAngle, endAngle) {
+        if (startAngle > endAngle) {
+          var s = startAngle;
+          startAngle = endAngle;
+          endAngle = s;
+        }
+        if (endAngle - startAngle > Math.PI * 2) {
+          endAngle = Math.PI * 1.99999;
+        }
+
+        var largeArc = endAngle - startAngle <= Math.PI ? 0 : 1;
+
+        return [
+          'M',
+          x,
+          y,
+          'L',
+          x + Math.cos(startAngle) * r,
+          y - Math.sin(startAngle) * r,
+          'A',
+          r,
+          r,
+          0,
+          largeArc,
+          0,
+          x + Math.cos(endAngle) * r,
+          y - Math.sin(endAngle) * r,
+          'L',
+          x,
+          y
+        ].join(' ');
+      }
+
+
+    };
+
+    const step = 2;
+    for (let i = 0; i <= 100; i++) {
+      if (i % step === 0) {
+        draw(i);
+      }
+    }
+
+    counter = 0;
+    setTimeout(() => {
+      for (let i = 0; i <= 100; i++) {
+        if (i % step === 0) {
+          toImage(counter++);
+        }
+      }
+    }, 2000)
+  });
+
+
+  document.getElementById("download").onclick = () => {
+    var images = document.getElementsByTagName('img');
+    var srcList = [];
+    var i = 0;
+
+    setInterval(function(){
+      if(images.length > i){
+        srcList.push(images[i].src);
+        var link = document.createElement("a");
+        link.id=i;
+        link.download = "progress-32-f" + i + ".png";
+        link.href = images[i].src;
+        link.click();
+        i++;
+      }
+    }, 500);
+  }
+
+</script>
+
+</body>
+</html>
