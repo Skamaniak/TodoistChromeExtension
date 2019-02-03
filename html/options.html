@@ -33,7 +33,7 @@
         <label class="grid-item" for="gmailTaskTemplate">Task Template</label>
         <input class="grid-item" id="gmailTaskTemplate" placeholder="e.g. [$subject ($source)]($href)" type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
-                title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress." />
+                title="Todoist task template. Allowed placeholders: $subject, $source, $href, $senderName, $senderEmailAddress, $message." />
         <label class="grid-item" for="gmailEmbedButtonSelect">Todoist Button</label>
         <select class="grid-item" id="gmailEmbedButtonSelect">
             <option value="true">Embed in Gmail UI</option>
@@ -57,7 +57,7 @@
         <input class="grid-item" id="confluenceTaskTemplate" placeholder="e.g. [$title ($source)]($href)" required
                 type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
-                title="Todoist task template. Allowed placeholders: $title, $source, $href." />
+                title="Todoist task template. Allowed placeholders: $title, $source, $href, $message." />
 
         <label class="grid-item locked" for="confluenceRegexIdentifier">
             <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
@@ -73,7 +73,7 @@
         <label class="grid-item" for="jiraTaskTemplate">Task Template</label>
         <input class="grid-item" id="jiraTaskTemplate" placeholder="e.g. [$summary ($source)]($href)" required type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
-                title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status." />
+                title="Todoist task template. Allowed placeholders: $summary, $source, $href, $issueType, $assignee, $reporter, $priority, $status, $message." />
 
         <label class="grid-item" for="jiraReflectPriority">Reflect Priority</label>
         <select class="grid-item" id="jiraReflectPriority">
@@ -138,7 +138,7 @@
         <input class="grid-item" id="websiteTaskTemplate" placeholder="e.g. [$title ($source)]($href)" required
                 type="text" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
-                title="Todoist task template. Allowed placeholders: $title, $source, $href." />
+                title="Todoist task template. Allowed placeholders: $title, $source, $href, $message." />
         <label class="grid-item locked" for="websiteRegexIdentifier">
             <a href="https://github.com/Skamaniak/TodoistChromeExtension/wiki/Advanced-Plugin-Configuration">URL Regex</a>
         </label>
