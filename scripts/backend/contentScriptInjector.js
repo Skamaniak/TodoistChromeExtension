@@ -68,7 +68,7 @@ top.CONFIG_STORE.loadConfig()
       top.LOGGER.debug('Content script injector initialized');
     }
   });
-top.CONFIG_STORE.addOnChangeListener((newConfig) => {
+top.CONFIG_STORE.addOnConfigChangeListener((newConfig) => {
   top.CONTENT_SCRIPT_INJECTOR = ContentScriptInjector.fromConfig(newConfig);
   top.LOGGER.debug('Content script injector reinitialized on config change');
 });

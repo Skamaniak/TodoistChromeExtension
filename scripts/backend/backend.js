@@ -32,16 +32,18 @@ const scheduleTaskCreation = function (response) {
 };
 
 const fetchProjects = () => {
-  const response = top.TODOIST_PROJECT_PROVIDER.getProjects();
-  if (!response.success) {
-    top.PLUGIN_ICON.signalInfo();
-    top.NOTIFICATION_MANAGER.announce({
-      iconUrl: 'images/info-icon-128.png',
-      title: 'Cannot create Todoist task',
-      message: 'Please configure a valid API key first'
+  return top.TODOIST_PROJECT_PROVIDER.getProjectsState()
+    .then(projectsState => {
+      if (!projectsState.loaded) {
+        top.PLUGIN_ICON.signalInfo();
+        top.NOTIFICATION_MANAGER.announce({
+          iconUrl: 'images/info-icon-128.png',
+          title: 'Cannot create Todoist task',
+          message: 'Please configure a valid API key first'
+        });
+      }
+      return projectsState;
     });
-  }
-  return response;
 };
 
 // Backend actions
@@ -51,22 +53,25 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.injectContentScripts] = (_, sender) =>
 
 actionHandlers[top.MESSAGE_BUS.ACTIONS.scheduleTaskCreation] = () => {
   clearTimeout(userActionTimerContext);
+
   top.MESSAGE_BUS.TO_FRONTEND.createTask((taskCreationResponse) => {
-    const fetchProjectsResponse = fetchProjects();
-    if (taskCreationResponse && taskCreationResponse.success && fetchProjectsResponse.success) {
-      const popupData = {
-        projects: fetchProjectsResponse.projects,
-        taskDefinition: taskCreationResponse.taskDefinition
-      };
-      top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
-      scheduleTaskCreation(taskCreationResponse);
-    } else {
-      top.MESSAGE_BUS.TO_POPUP.closePopup();
-      top.PLUGIN_ICON.signalInfo();
-      if (taskCreationResponse && taskCreationResponse.notification) {
-        top.NOTIFICATION_MANAGER.announce(taskCreationResponse.notification);
-      }
-    }
+    fetchProjects()
+      .then(fetchProjectsState => {
+        if (taskCreationResponse && taskCreationResponse.success && fetchProjectsState.loaded) {
+          const popupData = {
+            projects: fetchProjectsState.projects,
+            taskDefinition: taskCreationResponse.taskDefinition
+          };
+          top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
+          scheduleTaskCreation(taskCreationResponse);
+        } else {
+          top.MESSAGE_BUS.TO_POPUP.closePopup();
+          top.PLUGIN_ICON.signalInfo();
+          if (taskCreationResponse && taskCreationResponse.notification) {
+            top.NOTIFICATION_MANAGER.announce(taskCreationResponse.notification);
+          }
+        }
+      });
   });
 };
 

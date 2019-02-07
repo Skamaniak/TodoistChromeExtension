@@ -1,4 +1,4 @@
-// requires LOGGING, TODOIST_CLIENT
+// requires LOGGING, CONFIG_STORE, TODOIST_CLIENT
 
 class TodoistProjectProvider {
 
@@ -7,7 +7,15 @@ class TodoistProjectProvider {
     this.refreshIntervalMs = refreshIntervalMs;
     this.backOffTimeoutMs = backOffTimeoutMs;
     this.loadingInProgress = false;
-    this.projectsLoaded = false;
+  }
+
+  static _storeProjects(projects) {
+    top.LOGGER.info('Storing projects from Todoist.');
+    const projectsState = {
+      loaded: true,
+      projects
+    };
+    return top.CONFIG_STORE.storeProjectsState(projectsState);
   }
 
   _reschedule () {
@@ -29,12 +37,9 @@ class TodoistProjectProvider {
 
   _loadProjects () {
     top.TODOIST_CLIENT.getProjects()
-      .then(newProjects => {
-        top.LOGGER.info('Projects from Todoist loaded successfully.');
-        this.projects = JSON.parse(newProjects);
-        this.projectsLoaded = true;
-        this._release();
-      })
+      .then(projects => JSON.parse(projects))
+      .then(TodoistProjectProvider._storeProjects)
+      .then(() => this._release())
       .catch(() => {
         top.LOGGER.warn('Failed to load Todoist projects, trying again in', this.backOffTimeoutMs, 'ms...');
         this._reschedule();
@@ -71,11 +76,8 @@ class TodoistProjectProvider {
     setInterval(() => this._loadProjectsExclusively(), this.refreshIntervalMs);
   }
 
-  getProjects () {
-    return {
-      success: this.projectsLoaded,
-      projects: this.projects
-    };
+  getProjectsState () {
+    return top.CONFIG_STORE.loadProjectsState();
   }
 }
 
