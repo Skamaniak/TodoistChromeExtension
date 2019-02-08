@@ -40,8 +40,8 @@ class TodoistProjectProvider {
       .then(projects => JSON.parse(projects))
       .then(TodoistProjectProvider._storeProjects)
       .then(() => this._release())
-      .catch(() => {
-        top.LOGGER.warn('Failed to load Todoist projects, trying again in', this.backOffTimeoutMs, 'ms...');
+      .catch((err) => {
+        top.LOGGER.warn('Failed to load Todoist projects, trying again in', this.backOffTimeoutMs, 'ms...', err);
         this._reschedule();
       });
   }

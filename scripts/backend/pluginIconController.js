@@ -1,19 +1,43 @@
 //requires LOGGER, CONFIG_STORE
 
-class PluginIconController {
-  _setIcon (iconPath) {
-    chrome.browserAction.setIcon({
-      path: {
-        '32': iconPath
-      }
+class PluginIcon {
+  constructor (queueLimit = 1) {
+    this.operationsQueue = Promise.resolve();
+    this.queueSize = 0;
+    this.queueLimit = queueLimit;
+  }
+
+  _createSetIconTask (iconPath) {
+    return () => new Promise(resolve => {
+      chrome.browserAction.setIcon({
+        path: {
+          '32': iconPath
+        }
+      }, resolve);
     });
   };
+
+  setIcon (iconPath, force = false) {
+    if (force || this.queueSize < this.queueLimit) {
+      this.queueSize += 1;
+      this.operationsQueue = this.operationsQueue.then(this._createSetIconTask(iconPath))
+        .then(() => this.queueSize -= 1);
+    } else {
+      top.LOGGER.debug("Skipping icon", iconPath)
+    }
+  };
+}
+
+class PluginIconController {
+  constructor () {
+    this.pluginIcon = new PluginIcon();
+  }
 
   _animateIcon (animPath, frames, cycleLength, loop = true) {
     const delay = cycleLength / frames;
     let frame = 0;
     const setNextFrame = () => {
-      this._setIcon(animPath.replace('%frame', frame));
+      this.pluginIcon.setIcon(animPath.replace('%frame', frame));
       frame = (frame + 1) % frames;
 
       if (!loop && frame === 0) {
@@ -24,19 +48,19 @@ class PluginIconController {
   };
 
   _setSuccessIcon () {
-    this._setIcon('images/success-icon-32.png');
+    this.pluginIcon.setIcon('images/success-icon-32.png', true);
   }
 
   _setFailureIcon () {
-    this._setIcon('images/error-icon-32.png');
+    this.pluginIcon.setIcon('images/error-icon-32.png', true);
   }
 
   _setInfoIcon () {
-    this._setIcon('images/info-icon-32.png');
+    this.pluginIcon.setIcon('images/info-icon-32.png', true);
   }
 
   _setDefaultIcon () {
-    this._setIcon('images/plugin-icon-32.png');
+    this.pluginIcon.setIcon('images/plugin-icon-32.png', true);
   }
 
   _setLoadingIndicatorIcon () {
