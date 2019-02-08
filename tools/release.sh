@@ -50,9 +50,11 @@ echo "New tag version is $newTag"
 
 echo "Changing version in manifest.json"
 sed -i '' -e "s/$lastTag/$newTag/" ../manifest.json > /dev/null
-
+git add ../manifest.json
 git commit -m "Bumped version to $newTag" > /dev/null 2>&1
+
+echo "Tagging the branch with $newTag"
 git tag -a "$newTag" -m "$2" > /dev/null 2>&1
-git push --tags > /dev/null 2>&1
+git push --follow-tags > /dev/null 2>&1
 
 echo "Done"
