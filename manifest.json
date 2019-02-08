@@ -1,6 +1,6 @@
 {
   "name": "Todoist for Everything",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Todoist Extension for reporting tasks from common tools like Gmail, Slack, Jira, Confluence and any generic website.",
   "permissions": [
     "storage",
