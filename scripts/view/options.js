@@ -47,6 +47,9 @@ window.onload = () => {
     },
     ADVANCED: {
       showAdvancedOptions: document.getElementById('showAdvancedOptions')
+    },
+    OTHER: {
+      configVersion: document.getElementById('configVersion')
     }
   };
 
@@ -94,6 +97,9 @@ window.onload = () => {
       ELEMS.WEBSITE.taskTemplate.value = config.website.taskTemplate;
       ELEMS.WEBSITE.regexIdentifier.value = config.website.regexIdentifier;
 
+      ELEMS.OTHER.configVersion.innerText = 'Version: ' + config.version;
+      ELEMS.OTHER.configVersion.setAttribute('data-version', config.version);
+
       refreshMappingEnabledState();
     });
 
@@ -132,7 +138,8 @@ window.onload = () => {
       website: {
         taskTemplate: ELEMS.WEBSITE.taskTemplate.value,
         regexIdentifier: ELEMS.WEBSITE.regexIdentifier.value
-      }
+      },
+      version: ELEMS.OTHER.configVersion.getAttribute('data-version')
     };
     top.CONFIG_STORE.storeConfig(config)
       .then(() => showConfigSaved());
