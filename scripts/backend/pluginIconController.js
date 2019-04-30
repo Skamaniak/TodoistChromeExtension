@@ -64,7 +64,7 @@ class PluginIconController {
   }
 
   _setLoadingIndicatorIcon () {
-    this._animateIcon('images/animation/spinner/spinner-32-f%frame.gif', 12, 1000);
+    this._animateIcon('images/animation/spinner/spinner-32-f%frame.png', 8, 500);
   };
 
   _setWaitingIndicatorIcon () {
