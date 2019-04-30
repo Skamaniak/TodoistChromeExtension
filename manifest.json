@@ -13,7 +13,7 @@
   "background": {
     "scripts": [
       "scripts/logger.js",
-      "scripts/configStoreInit.js",
+      "scripts/configStoreMigration.js",
       "scripts/configStoreApi.js",
       "scripts/messageBus.js",
       "scripts/backend/pluginIconController.js",

@@ -1,3 +1,4 @@
+// LOGGER
 const DEFAULT_TODOIST_PRIORITY = 1;
 const JIRA_PRIORITY_MAPPING = {
   'Trivial': DEFAULT_TODOIST_PRIORITY,
@@ -7,7 +8,25 @@ const JIRA_PRIORITY_MAPPING = {
   'Blocker': DEFAULT_TODOIST_PRIORITY
 };
 
+const KNOWN_VERSIONS = ["1.1.2"];
+
+class Migration {
+  static migrate(oldConfig) {
+    if (!oldConfig.version) {
+      const latestVersion = Migration.getLatestConfigVersion();
+      top.LOGGER.info("Config migration: Adding 'version'", latestVersion);
+      oldConfig.version = latestVersion;
+    }
+    return oldConfig;
+  }
+
+  static getLatestConfigVersion() {
+    return KNOWN_VERSIONS[KNOWN_VERSIONS.length - 1];
+  }
+}
+
 const defaultConfig = {
+  version: Migration.getLatestConfigVersion(),
   todoist: {
     todoistApiKey: ''
   },
@@ -36,7 +55,17 @@ const defaultConfig = {
 };
 
 chrome.runtime.onInstalled.addListener(function () {
-  chrome.storage.sync.set({ configuration: defaultConfig });
+  chrome.storage.sync.get('configuration', function (response) {
+    const oldConfig = response.configuration;
+    let configuration;
+    if (!oldConfig) {
+      top.LOGGER.info("Configuration not found, setting up defaults for version", defaultConfig.version);
+      configuration = defaultConfig;
+    } else {
+      configuration = Migration.migrate(oldConfig);
+    }
+    chrome.storage.sync.set({configuration});
+  });
 });
 
 // export
