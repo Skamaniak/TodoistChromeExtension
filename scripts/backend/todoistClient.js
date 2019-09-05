@@ -55,12 +55,12 @@ class TodoistClient {
 
   createTask (task) {
     return TodoistClient._getApiKey()
-      .then((apiKey) => this._sendPost(apiKey, 'https://beta.todoist.com/API/v8/tasks', task));
+      .then((apiKey) => this._sendPost(apiKey, 'https://api.todoist.com/rest/v1/tasks', task));
   }
 
   getProjects () {
     return TodoistClient._getApiKey()
-      .then((apiKey) => this._sendGet(apiKey, 'https://beta.todoist.com/API/v8/projects'));
+      .then((apiKey) => this._sendGet(apiKey, 'https://api.todoist.com/rest/v1/projects'));
   }
 
   static hasApiKey () {
