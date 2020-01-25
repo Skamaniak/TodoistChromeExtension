@@ -118,7 +118,8 @@ window.onload = () => {
         todoistApiKey: ELEMS.TODOIST.apiKey.value
       },
       popup: {
-        timeoutMs: ELEMS.POPUP.timeout.value
+        timeoutMs: ELEMS.POPUP.timeout.value,
+        scheduleOptions: ['Today', 'Tomorrow', 'Next week'] //TODO make it configurable
       },
       gmail: {
         taskTemplate: ELEMS.GMAIL.taskTemplate.value,

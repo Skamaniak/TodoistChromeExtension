@@ -3,17 +3,26 @@ window.onload = () => {
   const ELEMS = {
     message: document.getElementById('messageText'),
     projectSelect: document.getElementById('projects'),
+    scheduleSelect: document.getElementById('schedule'),
     popupBody: document.getElementById('popup'),
     cancelAction: document.getElementById('cancelAction'),
     createAction: document.getElementById('createAction')
   };
 
-  const addProjectOption = (project, selected) => {
+  const addSelectOption = (selectElem, optionContent, optionValue, selected) => {
     const option = document.createElement('option');
-    option.textContent = project.name;
-    option.value = project.id;
+    option.textContent = optionContent;
+    option.value = optionValue;
     option.selected = selected;
-    ELEMS.projectSelect.appendChild(option);
+    selectElem.appendChild(option);
+  };
+
+  const addProjectOption = (project, selected) => {
+    addSelectOption(ELEMS.projectSelect, project.name, project.id, selected);
+  };
+
+  const addScheduleOption = (schedule, selected) => {
+    addSelectOption(ELEMS.scheduleSelect, schedule, schedule, selected);
   };
 
   top.MESSAGE_BUS.TO_BACKEND.scheduleTaskCreation();
@@ -33,7 +42,8 @@ window.onload = () => {
     e.stopPropagation();
     const extraDetails = {
       message: ELEMS.message.value,
-      projectId: parseInt(ELEMS.projectSelect.value)
+      projectId: parseInt(ELEMS.projectSelect.value),
+      schedule: ELEMS.scheduleSelect.value
     };
     const task = Object.assign(taskDefinition, extraDetails);
     top.MESSAGE_BUS.TO_BACKEND.createTask(task);
@@ -49,6 +59,11 @@ window.onload = () => {
     taskDefinition = popupData.taskDefinition;
     const projects = popupData.projects;
     projects.forEach((project) => addProjectOption(project, project.name === 'Inbox'));
+
+    const scheduleOptions = popupData.scheduleOptions;
+    addScheduleOption('None', true);
+    scheduleOptions.forEach((schedule) => addScheduleOption(schedule, false));
+
     ELEMS.popupBody.classList.remove('hidden');
     ELEMS.message.focus();
   };

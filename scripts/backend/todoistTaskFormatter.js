@@ -1,6 +1,17 @@
 // requires LOGGER, CONFIG_STORE
 
 class TodoistTaskFormatter {
+  static createTask (taskDefinition, content) {
+    const task = { content };
+    if (taskDefinition.projectId) {
+      task['project_id'] = taskDefinition.projectId;
+    }
+    if (taskDefinition.schedule && taskDefinition.schedule !== 'None') {
+      task['due'] = { 'string': taskDefinition.schedule };
+    }
+    return task;
+  }
+
   _formatEmailTask (taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('gmail')
       .then((config) => {
@@ -13,11 +24,7 @@ class TodoistTaskFormatter {
           .replace('$href', taskDefinition.href)
           .replace('$message', taskDefinition.message || '');
 
-        const task = { content };
-        if (taskDefinition.projectId) {
-          task['project_id'] = taskDefinition.projectId;
-        }
-        return task;
+        return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
   };
 
@@ -31,11 +38,7 @@ class TodoistTaskFormatter {
           .replace('$href', taskDefinition.href)
           .replace('$message', taskDefinition.message || '');
 
-        const task = { content };
-        if (taskDefinition.projectId) {
-          task['project_id'] = taskDefinition.projectId;
-        }
-        return task;
+        return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
   };
 
@@ -54,14 +57,11 @@ class TodoistTaskFormatter {
           .replace('$status', taskDefinition.status)
           .replace('$message', taskDefinition.message || '');
 
-        const task = { content };
+        const task = TodoistTaskFormatter.createTask(taskDefinition, content);
         if (config.priorityMappingEnabled === 'true') {
           const priority = config.priorityMapping[taskDefinition.priority];
           top.LOGGER.debug('Adding priority mapping', taskDefinition.priority, 'to', priority);
           task['priority'] = priority;
-        }
-        if (taskDefinition.projectId) {
-          task['project_id'] = taskDefinition.projectId;
         }
         return task;
       });
@@ -77,11 +77,7 @@ class TodoistTaskFormatter {
           .replace('$href', taskDefinition.href)
           .replace('$message', taskDefinition.message || '');
 
-        const task = { content };
-        if (taskDefinition.projectId) {
-          task['project_id'] = taskDefinition.projectId;
-        }
-        return task;
+        return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
   };
 

@@ -1,4 +1,4 @@
-// requires LOGGER, MESSAGE_BUS, PLUGIN_ICON, TASK_FORMATTER, TODOIST_CLIENT, TODOIST_PROJECT_PROVIDER, CONTENT_SCRIPT_INJECTOR, NOTIFICATION_MANAGER
+// requires LOGGER, MESSAGE_BUS, PLUGIN_ICON, TASK_FORMATTER, TODOIST_CLIENT, TODOIST_PROJECT_PROVIDER, CONTENT_SCRIPT_INJECTOR, NOTIFICATION_MANAGER, CONFIG_STORE
 
 let userActionTimerContext;
 const actionHandlers = {};
@@ -58,12 +58,15 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.scheduleTaskCreation] = () => {
     fetchProjects()
       .then(fetchProjectsState => {
         if (taskCreationResponse && taskCreationResponse.success && fetchProjectsState.loaded) {
-          const popupData = {
-            projects: fetchProjectsState.projects,
-            taskDefinition: taskCreationResponse.taskDefinition
-          };
-          top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
-          scheduleTaskCreation(taskCreationResponse);
+          top.CONFIG_STORE.loadConfigSection('popup').then((popup) => {
+            const popupData = {
+              projects: fetchProjectsState.projects,
+              scheduleOptions: popup.scheduleOptions,
+              taskDefinition: taskCreationResponse.taskDefinition
+            };
+            top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
+            scheduleTaskCreation(taskCreationResponse);
+          });
         } else {
           top.MESSAGE_BUS.TO_POPUP.closePopup();
           top.PLUGIN_ICON.signalInfo();

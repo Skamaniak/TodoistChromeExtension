@@ -17,3 +17,7 @@ body {
 .popup .pull-right {
     float: right;
 }
+
+.popup select {
+    width: 100%;
+}
