@@ -9,41 +9,15 @@ const JIRA_PRIORITY_MAPPING = {
 };
 
 const SCHEDULE_OPTIONS = ['Today', 'Tomorrow', 'Next week'];
-
-const defaultConfig = {
-  version: Migration.getLatestConfigVersion(),
-  todoist: {
-    todoistApiKey: ''
-  },
-  popup: {
-    timeoutMs: 2000,
-    scheduleOptions: SCHEDULE_OPTIONS,
-    scheduleEnabled: 'true'
-  },
-  gmail: {
-    taskTemplate: '$message [$subject ($source)]($href)',
-    embedButton: 'true',
-    regexIdentifier: '^https:\\/\\/mail\\.google\\.com'
-  },
-  confluence: {
-    taskTemplate: '$message [$title ($source)]($href)',
-    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/wiki\\/'
-  },
-  jira: {
-    taskTemplate: '$message [$summary ($source)]($href)',
-    priorityMappingEnabled: 'false',
-    priorityMapping: JIRA_PRIORITY_MAPPING,
-    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/'
-  },
-  website: {
-    taskTemplate: '$message [$title ($source)]($href)',
-    regexIdentifier: '.*'
-  }
-};
-
 const KNOWN_VERSIONS = ["1.1.2", "1.1.3"];
 
 class Migration {
+  static migrateStringToBoolean(object, property) {
+    const oldValue = object[property];
+    if (typeof oldValue === 'string') {
+      object[property] = oldValue === 'true';
+    }
+  }
 
   static migrate(oldConfig) {
     if (!oldConfig.version) {
@@ -57,6 +31,11 @@ class Migration {
     if (!oldConfig.popup.scheduleEnabled) {
       oldConfig.popup.scheduleEnabled = defaultConfig.popup.scheduleEnabled;
     }
+
+    Migration.migrateStringToBoolean(oldConfig.popup, 'scheduleEnabled');
+    Migration.migrateStringToBoolean(oldConfig.gmail, 'embedButton');
+    Migration.migrateStringToBoolean(oldConfig.jira, 'priorityMappingEnabled');
+
     const latestConfigVersion = Migration.getLatestConfigVersion();
     if (!oldConfig.version !== latestConfigVersion) {
       oldConfig.version = latestConfigVersion;
@@ -68,6 +47,37 @@ class Migration {
     return KNOWN_VERSIONS[KNOWN_VERSIONS.length - 1];
   }
 }
+
+const defaultConfig = {
+  version: Migration.getLatestConfigVersion(),
+  todoist: {
+    todoistApiKey: ''
+  },
+  popup: {
+    timeoutMs: 2000,
+    scheduleOptions: SCHEDULE_OPTIONS,
+    scheduleEnabled: true
+  },
+  gmail: {
+    taskTemplate: '$message [$subject ($source)]($href)',
+    embedButton: true,
+    regexIdentifier: '^https:\\/\\/mail\\.google\\.com'
+  },
+  confluence: {
+    taskTemplate: '$message [$title ($source)]($href)',
+    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/wiki\\/'
+  },
+  jira: {
+    taskTemplate: '$message [$summary ($source)]($href)',
+    priorityMappingEnabled: false,
+    priorityMapping: JIRA_PRIORITY_MAPPING,
+    regexIdentifier: '^https:\\/\\/[^.]+\\.atlassian\\.net\\/'
+  },
+  website: {
+    taskTemplate: '$message [$title ($source)]($href)',
+    regexIdentifier: '.*'
+  }
+};
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.get('configuration', function (response) {

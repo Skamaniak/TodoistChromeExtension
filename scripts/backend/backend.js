@@ -61,7 +61,7 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.scheduleTaskCreation] = () => {
           top.CONFIG_STORE.loadConfigSection('popup').then((popup) => {
             const popupData = {
               projects: fetchProjectsState.projects,
-              scheduleEnabled: popup.scheduleEnabled === 'true', //TODO handle booleans like a man not a squirrel!
+              scheduleEnabled: popup.scheduleEnabled,
               scheduleOptions: popup.scheduleOptions,
               taskDefinition: taskCreationResponse.taskDefinition
             };

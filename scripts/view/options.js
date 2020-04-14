@@ -90,6 +90,8 @@ window.onload = () => {
 
   const arrayToString = (arr) => arr.join(', ');
 
+  const stringToBoolean = (str) => str === 'true';
+
   // Initial config load and data population
   top.CONFIG_STORE.loadConfig()
     .then((config) => {
@@ -142,11 +144,11 @@ window.onload = () => {
       popup: {
         timeoutMs: ELEMS.POPUP.timeout.value,
         scheduleOptions: stringToArray(ELEMS.POPUP.scheduleOptions.value),
-        scheduleEnabled: ELEMS.POPUP.scheduleEnabled.value
+        scheduleEnabled: stringToBoolean(ELEMS.POPUP.scheduleEnabled.value)
       },
       gmail: {
         taskTemplate: ELEMS.GMAIL.taskTemplate.value,
-        embedButton: ELEMS.GMAIL.embedButton.value,
+        embedButton: stringToBoolean(ELEMS.GMAIL.embedButton.value),
         regexIdentifier: ELEMS.GMAIL.regexIdentifier.value
       },
       confluence: {
@@ -155,7 +157,7 @@ window.onload = () => {
       },
       jira: {
         taskTemplate: ELEMS.JIRA.taskTemplate.value,
-        priorityMappingEnabled: ELEMS.JIRA.priorityMappingEnabled.value,
+        priorityMappingEnabled: stringToBoolean(ELEMS.JIRA.priorityMappingEnabled.value),
         priorityMapping: jiraPriorities,
         regexIdentifier: ELEMS.JIRA.regexIdentifier.value
       },

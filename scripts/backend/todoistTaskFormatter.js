@@ -58,7 +58,7 @@ class TodoistTaskFormatter {
           .replace('$message', taskDefinition.message || '');
 
         const task = TodoistTaskFormatter.createTask(taskDefinition, content);
-        if (config.priorityMappingEnabled === 'true') {
+        if (config.priorityMappingEnabled) {
           const priority = config.priorityMapping[taskDefinition.priority];
           top.LOGGER.debug('Adding priority mapping', taskDefinition.priority, 'to', priority);
           task['priority'] = priority;

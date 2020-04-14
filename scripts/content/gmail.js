@@ -32,7 +32,7 @@ const registerMessageViewHandler = (sdk) => {
 const addTodoistButton = (sdk) => {
   return top.CONFIG_STORE.loadConfigSection('gmail')
     .then((cfg) => {
-      if (cfg.embedButton === 'true') {
+      if (cfg.embedButton) {
         sdk.Toolbars.registerThreadButton({
           title: 'Add to Todoist',
           positions: ['THREAD'],
