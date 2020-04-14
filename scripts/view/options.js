@@ -17,7 +17,10 @@ window.onload = () => {
       apiKey: document.getElementById('todoistApiKey')
     },
     POPUP: {
-      timeout: document.getElementById('popupTimeout')
+      timeout: document.getElementById('popupTimeout'),
+      scheduleEnabled: document.getElementById('scheduleShow'),
+      scheduleExtend: document.getElementById('scheduleDetails'),
+      scheduleOptions: document.getElementById('scheduleOptions')
     },
     GMAIL: {
       taskTemplate: document.getElementById('gmailTaskTemplate'),
@@ -30,7 +33,6 @@ window.onload = () => {
     },
     JIRA: {
       taskTemplate: document.getElementById('jiraTaskTemplate'),
-      reflectPriority: document.getElementById('jiraReflectPriority'),
       priorityMappingExtend: document.getElementById('jiraPriorityMapping'),
       priorityMappingEnabled: document.getElementById('jiraReflectPriority'),
       trivialPriority: document.getElementById('jiraTrivialPriorityMapping'),
@@ -55,7 +57,13 @@ window.onload = () => {
 
   const refreshMappingEnabledState = () => {
     const sectionElement = ELEMS.JIRA.priorityMappingExtend;
-    ELEMS.JIRA.reflectPriority.value === 'true' ? sectionElement.classList.remove('hidden') :
+    ELEMS.JIRA.priorityMappingEnabled.value === 'true' ? sectionElement.classList.remove('hidden') :
+      sectionElement.classList.add('hidden');
+  };
+
+  const refreshScheduleEnabledState = () => {
+    const sectionElement = ELEMS.POPUP.scheduleExtend;
+    ELEMS.POPUP.scheduleEnabled.value === 'true' ? sectionElement.classList.remove('hidden') :
       sectionElement.classList.add('hidden');
   };
 
@@ -71,6 +79,17 @@ window.onload = () => {
     return (priority && priority > 0 && priority < 5) ? priority : top.DEFAULTS.DEFAULT_TODOIST_PRIORITY;
   };
 
+  const stringToArray = (str) => {
+    if (!str) {
+      return [];
+    }
+    return str.split(',')
+      .map(opt => opt.trim())
+      .filter(opt => opt !== '');
+  };
+
+  const arrayToString = (arr) => arr.join(', ');
+
   // Initial config load and data population
   top.CONFIG_STORE.loadConfig()
     .then((config) => {
@@ -78,7 +97,8 @@ window.onload = () => {
       ELEMS.TODOIST.apiKey.value = config.todoist.todoistApiKey;
 
       ELEMS.POPUP.timeout.value = config.popup.timeoutMs;
-
+      ELEMS.POPUP.scheduleOptions.value = arrayToString(config.popup.scheduleOptions);
+      ELEMS.POPUP.scheduleEnabled.value = config.popup.scheduleEnabled;
       ELEMS.GMAIL.taskTemplate.value = config.gmail.taskTemplate;
       ELEMS.GMAIL.regexIdentifier.value = config.gmail.regexIdentifier;
 
@@ -100,7 +120,9 @@ window.onload = () => {
       ELEMS.OTHER.configVersion.innerText = 'Version: ' + config.version;
       ELEMS.OTHER.configVersion.setAttribute('data-version', config.version);
 
+      // Show or hide config sections based on current configuration
       refreshMappingEnabledState();
+      refreshScheduleEnabledState();
     });
 
   // Listeners
@@ -119,7 +141,8 @@ window.onload = () => {
       },
       popup: {
         timeoutMs: ELEMS.POPUP.timeout.value,
-        scheduleOptions: ['Today', 'Tomorrow', 'Next week'] //TODO make it configurable
+        scheduleOptions: stringToArray(ELEMS.POPUP.scheduleOptions.value),
+        scheduleEnabled: ELEMS.POPUP.scheduleEnabled.value
       },
       gmail: {
         taskTemplate: ELEMS.GMAIL.taskTemplate.value,
@@ -146,6 +169,7 @@ window.onload = () => {
       .then(() => showConfigSaved());
   };
 
-  ELEMS.JIRA.reflectPriority.onchange = refreshMappingEnabledState;
+  ELEMS.POPUP.scheduleEnabled.onchange = refreshScheduleEnabledState;
+  ELEMS.JIRA.priorityMappingEnabled.onchange = refreshMappingEnabledState;
   ELEMS.ADVANCED.showAdvancedOptions.onclick = showAdvancedOptions;
 };

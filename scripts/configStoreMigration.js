@@ -8,22 +8,7 @@ const JIRA_PRIORITY_MAPPING = {
   'Blocker': DEFAULT_TODOIST_PRIORITY
 };
 
-const KNOWN_VERSIONS = ["1.1.2"];
-
-class Migration {
-  static migrate(oldConfig) {
-    if (!oldConfig.version) {
-      const latestVersion = Migration.getLatestConfigVersion();
-      top.LOGGER.info("Config migration: Adding 'version'", latestVersion);
-      oldConfig.version = latestVersion;
-    }
-    return oldConfig;
-  }
-
-  static getLatestConfigVersion() {
-    return KNOWN_VERSIONS[KNOWN_VERSIONS.length - 1];
-  }
-}
+const SCHEDULE_OPTIONS = ['Today', 'Tomorrow', 'Next week'];
 
 const defaultConfig = {
   version: Migration.getLatestConfigVersion(),
@@ -31,7 +16,9 @@ const defaultConfig = {
     todoistApiKey: ''
   },
   popup: {
-    timeoutMs: 2000
+    timeoutMs: 2000,
+    scheduleOptions: SCHEDULE_OPTIONS,
+    scheduleEnabled: 'true'
   },
   gmail: {
     taskTemplate: '$message [$subject ($source)]($href)',
@@ -53,6 +40,34 @@ const defaultConfig = {
     regexIdentifier: '.*'
   }
 };
+
+const KNOWN_VERSIONS = ["1.1.2", "1.1.3"];
+
+class Migration {
+
+  static migrate(oldConfig) {
+    if (!oldConfig.version) {
+      const latestVersion = Migration.getLatestConfigVersion();
+      top.LOGGER.info("Config migration: Adding 'version'", latestVersion);
+      oldConfig.version = latestVersion;
+    }
+    if (!oldConfig.popup.scheduleOptions) {
+      oldConfig.popup.scheduleOptions = defaultConfig.popup.scheduleOptions;
+    }
+    if (!oldConfig.popup.scheduleEnabled) {
+      oldConfig.popup.scheduleEnabled = defaultConfig.popup.scheduleEnabled;
+    }
+    const latestConfigVersion = Migration.getLatestConfigVersion();
+    if (!oldConfig.version !== latestConfigVersion) {
+      oldConfig.version = latestConfigVersion;
+    }
+    return oldConfig;
+  }
+
+  static getLatestConfigVersion() {
+    return KNOWN_VERSIONS[KNOWN_VERSIONS.length - 1];
+  }
+}
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.get('configuration', function (response) {

@@ -7,7 +7,7 @@ class TodoistTaskFormatter {
       task['project_id'] = taskDefinition.projectId;
     }
     if (taskDefinition.schedule && taskDefinition.schedule !== 'None') {
-      task['due'] = { 'string': taskDefinition.schedule };
+      task['due_string'] = taskDefinition.schedule;
     }
     return task;
   }

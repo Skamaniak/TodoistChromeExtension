@@ -9,11 +9,13 @@
 </head>
 <body>
 <div class="popup hidden" id="popup">
-    <textarea id="messageText" placeholder="Short message" ></textarea>
+    <textarea id="messageText" placeholder="Short message"></textarea>
     <label for="projects">Project</label>
     <select id="projects"></select>
-    <label for="schedule">Schedule</label>
-    <select id="schedule"></select>
+    <div id="scheduleDetails">
+        <label for="schedule">Schedule</label>
+        <select id="schedule"></select>
+    </div>
     <div class="actions">
         <button id="cancelAction">Cancel</button>
         <button class="pull-right" id="createAction">Create</button>

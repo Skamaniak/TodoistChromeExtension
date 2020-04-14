@@ -24,6 +24,21 @@
         <input class="grid-item" id="popupTimeout" type="number" />
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
                 title="Time in milliseconds after which the popup hides and task is automatically created." />
+
+        <label class="grid-item" for="scheduleShow">Allow scheduling</label>
+        <select class="grid-item" id="scheduleShow">
+            <option value="true">Show in popup</option>
+            <option value="false">Do not show in popup</option>
+        </select>
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+             title="Allow scheduling of Todoist tasks via plugin popup." />
+
+        <div class="hidden full-row container" id="scheduleDetails">
+            <label class="grid-item" for="scheduleOptions">Schedule options</label>
+            <input class="grid-item" id="scheduleOptions" type="text" placeholder="Today, Tomorrow, Next week" />
+            <img class="grid-item info-icon" src="/images/info-icon-16.png"
+                 title="Todoist smart schedule options divided by comma." />
+        </div>
     </div>
 
     <hr />

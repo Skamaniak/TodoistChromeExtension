@@ -21,3 +21,7 @@ body {
 .popup select {
     width: 100%;
 }
+
+.popup .hidden {
+    display: none;
+}

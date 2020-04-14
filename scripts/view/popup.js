@@ -3,6 +3,7 @@ window.onload = () => {
   const ELEMS = {
     message: document.getElementById('messageText'),
     projectSelect: document.getElementById('projects'),
+    scheduleExtend: document.getElementById('scheduleDetails'),
     scheduleSelect: document.getElementById('schedule'),
     popupBody: document.getElementById('popup'),
     cancelAction: document.getElementById('cancelAction'),
@@ -59,6 +60,10 @@ window.onload = () => {
     taskDefinition = popupData.taskDefinition;
     const projects = popupData.projects;
     projects.forEach((project) => addProjectOption(project, project.name === 'Inbox'));
+
+    if (!popupData.scheduleEnabled) {
+      ELEMS.scheduleExtend.classList.add('hidden');
+    }
 
     const scheduleOptions = popupData.scheduleOptions;
     addScheduleOption('None', true);

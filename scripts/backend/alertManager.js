@@ -6,7 +6,10 @@ class NotificationManager {
     if (status === 401 || status === 403) {
       return 'Please check your API Key';
     }
-    if (status >= 400 && status < 500) {
+    if (status === 400) {
+      return 'Please validate your schedule option'
+    }
+    if (status > 400 && status < 500) {
       return 'Please update plugin or contact Author';
     }
     if (status >= 500) {
