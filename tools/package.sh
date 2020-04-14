@@ -39,7 +39,7 @@ cd ${TMP_FOLDER}
 zip -r ${packagePath} ${PROJECT_NAME} > /dev/null 2>&1
 
 echo "Cleaning temp folder..."
-rm -rf ${TMP_FOLDER}
+rm -rf ${TMP_PROJECT_FOLDER}
 
 echo "Package $packagePath was created"
 
