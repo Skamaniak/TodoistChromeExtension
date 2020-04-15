@@ -8,7 +8,7 @@ Chrome plugin is [available in the official Chrome store](https://chrome.google.
 Need a help with configuration or just see all the features? Everything could be found in the [documentation](https://github.com/Skamaniak/TodoistChromeExtension/wiki).
 
 ### Frameworks and Dependencies
-* Plugin uses only one 3rd party script which is [InboxSDK](https://www.inboxsdk.com/).
+* Plugin uses only one production 3rd party script which is [InboxSDK](https://www.inboxsdk.com/).
 * Plugin icons were taken from author [Smashicons](https://www.flaticon.com/authors/smashicons) at www.flaticon.com
 
 ### Feedback

@@ -1,13 +1,13 @@
 //requires LOGGER, CONFIG_STORE
 
 class PluginIcon {
-  constructor (queueLimit = 1) {
+  constructor(queueLimit = 1) {
     this.operationsQueue = Promise.resolve();
     this.queueSize = 0;
     this.queueLimit = queueLimit;
   }
 
-  _createSetIconTask (iconPath) {
+  _createSetIconTask(iconPath) {
     return () => new Promise(resolve => {
       chrome.browserAction.setIcon({
         path: {
@@ -15,25 +15,25 @@ class PluginIcon {
         }
       }, resolve);
     });
-  };
+  }
 
-  setIcon (iconPath, force = false) {
+  setIcon(iconPath, force = false) {
     if (force || this.queueSize < this.queueLimit) {
       this.queueSize += 1;
       this.operationsQueue = this.operationsQueue.then(this._createSetIconTask(iconPath))
         .then(() => this.queueSize -= 1);
     } else {
-      top.LOGGER.debug("Skipping icon", iconPath)
+      top.LOGGER.debug('Skipping icon', iconPath);
     }
-  };
+  }
 }
 
 class PluginIconController {
-  constructor () {
+  constructor() {
     this.pluginIcon = new PluginIcon();
   }
 
-  _animateIcon (animPath, frames, cycleLength, loop = true) {
+  _animateIcon(animPath, frames, cycleLength, loop = true) {
     const delay = cycleLength / frames;
     let frame = 0;
     const setNextFrame = () => {
@@ -45,35 +45,35 @@ class PluginIconController {
       }
     };
     this.animationInterval = setInterval(setNextFrame, delay);
-  };
+  }
 
-  _setSuccessIcon () {
+  _setSuccessIcon() {
     this.pluginIcon.setIcon('images/success-icon-32.png', true);
   }
 
-  _setFailureIcon () {
+  _setFailureIcon() {
     this.pluginIcon.setIcon('images/error-icon-32.png', true);
   }
 
-  _setInfoIcon () {
+  _setInfoIcon() {
     this.pluginIcon.setIcon('images/info-icon-32.png', true);
   }
 
-  _setDefaultIcon () {
+  _setDefaultIcon() {
     this.pluginIcon.setIcon('images/plugin-icon-32.png', true);
   }
 
-  _setLoadingIndicatorIcon () {
+  _setLoadingIndicatorIcon() {
     this._animateIcon('images/animation/spinner/spinner-32-f%frame.png', 8, 500);
-  };
+  }
 
-  _setWaitingIndicatorIcon () {
+  _setWaitingIndicatorIcon() {
     top.CONFIG_STORE.loadConfigSection('popup').then((popup) => {
       this._animateIcon('images/animation/loader/progress-32-f%frame.png', 51, popup.timeoutMs, false);
     });
-  };
+  }
 
-  _cancelPendingActions () {
+  _cancelPendingActions() {
     top.LOGGER.debug('Cancelling current plugin icon timers');
     const timer = this.iconSwitchTimer;
     if (timer) {
@@ -85,40 +85,40 @@ class PluginIconController {
     }
   }
 
-  signalSuccess () {
+  signalSuccess() {
     top.LOGGER.debug('Setting plugin icon to success state');
     this._cancelPendingActions();
     this._setSuccessIcon();
     this.iconSwitchTimer = setTimeout(() => this._setDefaultIcon(), 2000);
   }
 
-  signalFailure () {
+  signalFailure() {
     top.LOGGER.debug('Setting plugin icon to failure state');
     this._cancelPendingActions();
     this._setFailureIcon();
     this.iconSwitchTimer = setTimeout(() => this._setDefaultIcon(), 2000);
   }
 
-  signalInfo () {
+  signalInfo() {
     top.LOGGER.debug('Setting plugin icon to info state');
     this._cancelPendingActions();
     this._setInfoIcon();
     this.iconSwitchTimer = setTimeout(() => this._setDefaultIcon(), 2000);
   }
 
-  signalLoading () {
+  signalLoading() {
     top.LOGGER.debug('Setting plugin icon to loading indicator');
     this._cancelPendingActions();
     this._setLoadingIndicatorIcon();
   }
 
-  signalWaiting () {
+  signalWaiting() {
     top.LOGGER.debug('Setting plugin icon to waiting indicator');
     this._cancelPendingActions();
     this._setWaitingIndicatorIcon();
   }
 
-  clearSignal () {
+  clearSignal() {
     top.LOGGER.debug('Resetting plugin icon');
     this._cancelPendingActions();
     this._setDefaultIcon();

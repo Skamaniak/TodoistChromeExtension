@@ -2,7 +2,7 @@
 
 class ContentScriptInjector {
 
-  constructor (gmailUrlRegex, confluenceUrlRegex, jiraUrlRegex, genericWebsiteUrlRegex) {
+  constructor(gmailUrlRegex, confluenceUrlRegex, jiraUrlRegex, genericWebsiteUrlRegex) {
     const gmailInjector = {
       'urlRegex': gmailUrlRegex,
       'scripts': ['scripts/configStoreApi.js', 'scripts/lib/inboxsdk.js', 'scripts/content/gmail.js']
@@ -26,7 +26,7 @@ class ContentScriptInjector {
     this.orderedInjectors = [gmailInjector, confluenceInjector, jiraInjector, genericWebsiteInjector];
   }
 
-  static fromConfig (config) {
+  static fromConfig(config) {
     const gmailUrlRegex = new RegExp(config.gmail.regexIdentifier);
     const confluenceUrlRegex = new RegExp(config.confluence.regexIdentifier);
     const jiraUrlRegex = new RegExp(config.jira.regexIdentifier);
@@ -34,21 +34,21 @@ class ContentScriptInjector {
     return new ContentScriptInjector(gmailUrlRegex, confluenceUrlRegex, jiraUrlRegex, genericWebsiteUrlRegex);
   }
 
-  _injectContentScript (tabId, fileName) {
+  _injectContentScript(tabId, fileName) {
     return new Promise((resolve) => {
-      chrome.tabs.executeScript(tabId, { file: fileName }, resolve);
+      chrome.tabs.executeScript(tabId, {file: fileName}, resolve);
     });
-  };
+  }
 
-  _injectContentScripts (tabId, fileNames) {
+  _injectContentScripts(tabId, fileNames) {
     let pipeline = Promise.resolve();
     fileNames.forEach((fileName) => {
       pipeline = pipeline.then(() => this._injectContentScript(tabId, fileName));
     });
     return pipeline;
-  };
+  }
 
-  injectContentScripts (url, tabId) {
+  injectContentScripts(url, tabId) {
     for (const injector of this.orderedInjectors) {
       if (url.match(injector.urlRegex)) {
         top.LOGGER.debug('Injecting scripts', injector.scripts, 'into', url);
@@ -56,7 +56,7 @@ class ContentScriptInjector {
         break;
       }
     }
-  };
+  }
 }
 
 // export

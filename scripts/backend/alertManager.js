@@ -1,13 +1,13 @@
 // requires LOGGER
 
 class NotificationManager {
-  _getHint (error) {
+  _getHint(error) {
     const status = error.status;
     if (status === 401 || status === 403) {
       return 'Please check your API Key';
     }
     if (status === 400) {
-      return 'Please validate your schedule option'
+      return 'Please validate your schedule option';
     }
     if (status > 400 && status < 500) {
       return 'Please update plugin or contact Author';
@@ -17,7 +17,7 @@ class NotificationManager {
     }
   }
 
-  _areNotificatonsEnabled () {
+  _areNotificatonsEnabled() {
     return new Promise(resolve => {
       chrome.notifications.getPermissionLevel((level) => {
         resolve(level === 'granted');
@@ -25,12 +25,12 @@ class NotificationManager {
     });
   }
 
-  _notify (notification) {
+  _notify(notification) {
     top.LOGGER.debug('Publishing notification', notification);
     chrome.notifications.create(null, notification);
   }
 
-  _publishImportantNotificaton (notification) {
+  _publishImportantNotificaton(notification) {
     this._areNotificatonsEnabled()
       .then((enabled) => {
         if (enabled) {
@@ -42,7 +42,7 @@ class NotificationManager {
       });
   }
 
-  _publishNotImportantNotificaton (notification) {
+  _publishNotImportantNotificaton(notification) {
     this._areNotificatonsEnabled()
       .then((enabled) => {
         if (enabled) {
@@ -53,7 +53,7 @@ class NotificationManager {
       });
   }
 
-  _formatError (error) {
+  _formatError(error) {
     const formattedError = {
       iconUrl: 'images/error-icon-128.png',
       type: 'basic'
@@ -75,12 +75,12 @@ class NotificationManager {
     return formattedError;
   }
 
-  alert (error) {
+  alert(error) {
     const formattedError = this._formatError(error);
     this._publishImportantNotificaton(formattedError);
   }
 
-  announce (notification) {
+  announce(notification) {
     if (!notification.type) {
       notification.type = 'basic';
     }

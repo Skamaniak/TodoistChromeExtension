@@ -2,9 +2,10 @@
 
 const initInboxSdk = () => {
   return new Promise((resolve) => {
-    InboxSDK.load(2, 'sdk_a628b78da5fe4c0_703312c6e0').then(function (sdk) {
-      resolve(sdk);
-    });
+    InboxSDK.load(2, 'sdk_a628b78da5fe4c0_703312c6e0') // eslint-disable-line no-undef
+      .then(function (sdk) {
+        resolve(sdk);
+      });
   });
 };
 

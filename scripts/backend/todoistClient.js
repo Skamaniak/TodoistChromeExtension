@@ -1,16 +1,16 @@
 // requires LOGGER, CONFIG_STORE
 
 class TodoistClient {
-  static _getApiKey () {
+  static _getApiKey() {
     return top.CONFIG_STORE.loadConfigSection('todoist')
       .then((todoistConfig) => todoistConfig.todoistApiKey);
   }
 
-  static _appendAuthHeader (apiKey, request) {
+  static _appendAuthHeader(apiKey, request) {
     request.setRequestHeader('Authorization', 'Bearer ' + (apiKey || '-'));
   }
 
-  _responseAdapter (path, request, resolve, reject) {
+  _responseAdapter(path, request, resolve, reject) {
     request.onreadystatechange = function () {
       if (this.readyState === XMLHttpRequest.DONE) {
         const statusCode = request.status;
@@ -28,7 +28,7 @@ class TodoistClient {
     };
   }
 
-  _sendPost (apiKey, path, body) {
+  _sendPost(apiKey, path, body) {
     return new Promise((resolve, reject) => {
       top.LOGGER.debug('Sending POST request to Todoist API', path, 'with body', body);
 
@@ -41,7 +41,7 @@ class TodoistClient {
     });
   }
 
-  _sendGet (apiKey, path) {
+  _sendGet(apiKey, path) {
     return new Promise((resolve, reject) => {
       top.LOGGER.debug('Sending GET request to Todoist API', path);
 
@@ -53,19 +53,19 @@ class TodoistClient {
     });
   }
 
-  createTask (task) {
+  createTask(task) {
     return TodoistClient._getApiKey()
       .then((apiKey) => this._sendPost(apiKey, 'https://api.todoist.com/rest/v1/tasks', task));
   }
 
-  getProjects () {
+  getProjects() {
     return TodoistClient._getApiKey()
       .then((apiKey) => this._sendGet(apiKey, 'https://api.todoist.com/rest/v1/projects'));
   }
 
-  static hasApiKey () {
+  static hasApiKey() {
     return TodoistClient._getApiKey()
-      .then((apiKey) => apiKey && apiKey !== '' )
+      .then((apiKey) => apiKey && apiKey !== '');
   }
 }
 

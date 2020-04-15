@@ -3,24 +3,24 @@
 class MessagBus {
   _sendMessageToPluginScript(action, payload, listener, destination) {
     top.LOGGER.debug('Sending action', action, 'with payload', payload, 'to', destination);
-    chrome.runtime.sendMessage({ action, payload, destination }, listener);
+    chrome.runtime.sendMessage({action, payload, destination}, listener);
   }
 
-  sendMessageToBackend (action, payload, listener) {
+  sendMessageToBackend(action, payload, listener) {
     this._sendMessageToPluginScript(action, payload, listener, 'BACKEND');
-  };
+  }
 
-  sendMessageToPopup (action, payload, listener) {
+  sendMessageToPopup(action, payload, listener) {
     this._sendMessageToPluginScript(action, payload, listener, 'POPUP');
-  };
+  }
 
-  sendMessageToFrontend (action, payload, listener) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  sendMessageToFrontend(action, payload, listener) {
+    chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
       const tabId = tabs[0].id;
       top.LOGGER.debug('Sending action', action, 'to frontend tab', tabId);
-      chrome.tabs.sendMessage(tabId, { action, payload }, listener);
+      chrome.tabs.sendMessage(tabId, {action, payload}, listener);
     });
-  };
+  }
 }
 
 // export

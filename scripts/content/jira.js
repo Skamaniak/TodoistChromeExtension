@@ -39,7 +39,7 @@ function getTicketDetails() {
 
   // Request must be synchronous because of the message bus API - when the listener function is called,
   // the sendResponse must be called within its body before the function call ends.
-  request.open("GET", JIRA_REST_API_ISSUE_PATH + ticketId, false);
+  request.open('GET', JIRA_REST_API_ISSUE_PATH + ticketId, false);
   request.setRequestHeader('Content-Type', 'application/json');
   request.send();
   return response;
@@ -49,7 +49,7 @@ function extractAssignee(ticketDetails) {
   if (ticketDetails.fields.assignee) {
     return ticketDetails.fields.assignee.displayName;
   }
-  return 'Unassigned'
+  return 'Unassigned';
 }
 
 const scrapeJiraTicketInfo = () => {

@@ -2,7 +2,7 @@
 
 class TodoistProjectProvider {
 
-  constructor (refreshIntervalMs, backOffTimeoutMs) {
+  constructor(refreshIntervalMs, backOffTimeoutMs) {
     this.projects = [];
     this.refreshIntervalMs = refreshIntervalMs;
     this.backOffTimeoutMs = backOffTimeoutMs;
@@ -18,11 +18,11 @@ class TodoistProjectProvider {
     return top.CONFIG_STORE.storeProjectsState(projectsState);
   }
 
-  _reschedule () {
+  _reschedule() {
     setTimeout(() => this._loadProjectsIfKeyAvailable(), 2000);
   }
 
-  _lock () {
+  _lock() {
     if (this.loadingInProgress) {
       return false;
     } else {
@@ -31,11 +31,11 @@ class TodoistProjectProvider {
     }
   }
 
-  _release () {
+  _release() {
     this.loadingInProgress = false;
   }
 
-  _loadProjects () {
+  _loadProjects() {
     top.TODOIST_CLIENT.getProjects()
       .then(projects => JSON.parse(projects))
       .then(TodoistProjectProvider._storeProjects)
@@ -46,8 +46,8 @@ class TodoistProjectProvider {
       });
   }
 
-  _loadProjectsIfKeyAvailable () {
-    TodoistClient.hasApiKey()
+  _loadProjectsIfKeyAvailable() {
+    TodoistClient.hasApiKey() // eslint-disable-line no-undef
       .then((hasApiKey) => {
         if (hasApiKey) {
           this._loadProjects();
@@ -63,7 +63,7 @@ class TodoistProjectProvider {
       });
   }
 
-  _loadProjectsExclusively () {
+  _loadProjectsExclusively() {
     const lockAcquired = this._lock();
     if (lockAcquired) {
       top.LOGGER.debug('Running periodic project refresh');
@@ -71,12 +71,12 @@ class TodoistProjectProvider {
     }
   }
 
-  init () {
+  init() {
     this._loadProjectsExclusively();
     setInterval(() => this._loadProjectsExclusively(), this.refreshIntervalMs);
   }
 
-  getProjectsState () {
+  getProjectsState() {
     return top.CONFIG_STORE.loadProjectsState();
   }
 }

@@ -9,25 +9,25 @@ const JIRA_PRIORITY_MAPPING = {
 };
 
 const SCHEDULE_OPTIONS = ['Today', 'Tomorrow', 'Next week'];
-const KNOWN_VERSIONS = ["1.1.2", "1.3.0"];
+const KNOWN_VERSIONS = ['1.1.2', '1.3.0'];
 
 class Migration {
 
   static _logConfigMigration(msg) {
-    top.LOGGER.info("Config migration: " + msg);
+    top.LOGGER.info('Config migration: ' + msg);
   }
 
   static _migrateStringToBoolean(object, property) {
     const oldValue = object[property];
     if (typeof oldValue === 'string') {
-      Migration._logConfigMigration("Changing type from string to boolean for '" + property + "'");
+      Migration._logConfigMigration('Changing type from string to boolean for \'' + property + '\'');
       object[property] = oldValue === 'true';
     }
   }
 
   static _addProperty(config, property, value) {
     if (!config[property]) {
-      Migration._logConfigMigration("Adding '" + property + "'");
+      Migration._logConfigMigration('Adding \'' + property + '\'');
       config[property] = value;
     }
   }
@@ -35,8 +35,8 @@ class Migration {
   static _updateConfigVersion(config) {
     const latestConfigVersion = Migration._getLatestConfigVersion();
     if (config.version !== latestConfigVersion) {
-      Migration._logConfigMigration("Changing config version from '" + config.version + " to '" +
-        latestConfigVersion + "'");
+      Migration._logConfigMigration('Changing config version from \'' + config.version + ' to \'' +
+        latestConfigVersion + '\'');
       config.version = latestConfigVersion;
     }
   }
@@ -97,7 +97,7 @@ chrome.runtime.onInstalled.addListener(function () {
     const oldConfig = response.configuration;
     let configuration;
     if (!oldConfig) {
-      top.LOGGER.info("Configuration not found, setting up defaults for version", defaultConfig.version);
+      top.LOGGER.info('Configuration not found, setting up defaults for version', defaultConfig.version);
       configuration = defaultConfig;
     } else {
       configuration = Migration.migrate(oldConfig);

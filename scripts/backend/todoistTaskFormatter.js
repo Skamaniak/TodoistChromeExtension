@@ -1,8 +1,8 @@
 // requires LOGGER, CONFIG_STORE
 
 class TodoistTaskFormatter {
-  static createTask (taskDefinition, content) {
-    const task = { content };
+  static createTask(taskDefinition, content) {
+    const task = {content};
     if (taskDefinition.projectId) {
       task['project_id'] = taskDefinition.projectId;
     }
@@ -12,7 +12,7 @@ class TodoistTaskFormatter {
     return task;
   }
 
-  _formatEmailTask (taskDefinition) {
+  _formatEmailTask(taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('gmail')
       .then((config) => {
         top.LOGGER.debug('Formatting task from gmail', taskDefinition);
@@ -26,9 +26,9 @@ class TodoistTaskFormatter {
 
         return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
-  };
+  }
 
-  _formatConfluenceTask (taskDefinition) {
+  _formatConfluenceTask(taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('confluence')
       .then((config) => {
         top.LOGGER.debug('Formatting task from confluence', taskDefinition);
@@ -40,9 +40,9 @@ class TodoistTaskFormatter {
 
         return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
-  };
+  }
 
-  _formatJiraTask (taskDefinition) {
+  _formatJiraTask(taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('jira')
       .then((config) => {
         top.LOGGER.debug('Formatting task from jira', taskDefinition);
@@ -65,9 +65,9 @@ class TodoistTaskFormatter {
         }
         return task;
       });
-  };
+  }
 
-  _formatWebsiteTask (taskDefinition) {
+  _formatWebsiteTask(taskDefinition) {
     return top.CONFIG_STORE.loadConfigSection('website')
       .then((config) => {
         top.LOGGER.debug('Formatting task from generic website', taskDefinition);
@@ -79,9 +79,9 @@ class TodoistTaskFormatter {
 
         return TodoistTaskFormatter.createTask(taskDefinition, content);
       });
-  };
+  }
 
-  formatters (source) {
+  formatters(source) {
     const mapping = {
       'Email': (taskDefinition) => this._formatEmailTask(taskDefinition),
       'Confluence': (taskDefinition) => this._formatConfluenceTask(taskDefinition),
@@ -89,9 +89,9 @@ class TodoistTaskFormatter {
       'Website': (taskDefinition) => this._formatWebsiteTask(taskDefinition)
     };
     return mapping[source];
-  };
+  }
 
-  toTodoistTask (taskDefinition) {
+  toTodoistTask(taskDefinition) {
     const formatter = this.formatters(taskDefinition.source);
     return formatter(taskDefinition);
   }

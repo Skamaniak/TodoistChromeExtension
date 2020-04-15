@@ -22,7 +22,7 @@ top.CONFIG_STORE.storeConfig = (configuration) => {
 };
 
 top.CONFIG_STORE.addOnConfigChangeListener = (listener) => {
-  chrome.storage.onChanged.addListener(function(changes) {
+  chrome.storage.onChanged.addListener(function (changes) {
     const change = changes['configuration'];
     if (change) {
       listener(change.newValue, change.oldValue);
@@ -33,7 +33,7 @@ top.CONFIG_STORE.addOnConfigChangeListener = (listener) => {
 top.CONFIG_STORE.loadProjectsState = () => {
   return new Promise((resolve) => {
     chrome.storage.sync.get('projectsState', function (response) {
-      if (response && response.projectsState){
+      if (response && response.projectsState) {
         resolve(response.projectsState);
       } else {
         resolve({});
@@ -44,7 +44,7 @@ top.CONFIG_STORE.loadProjectsState = () => {
 
 top.CONFIG_STORE.storeProjectsState = (projectsState) => {
   return new Promise((resolve) => {
-    chrome.storage.sync.set({ projectsState }, function () {
+    chrome.storage.sync.set({projectsState}, function () {
       resolve();
     });
   });
