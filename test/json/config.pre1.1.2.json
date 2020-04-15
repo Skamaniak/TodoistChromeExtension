@@ -1,0 +1,33 @@
+{
+  "confluence": {
+    "regexIdentifier": "^https:\\/\\/[^.]+\\.atlassian\\.net\\/wiki\\/",
+    "taskTemplate": "$message [$title ($source)]($href)"
+  },
+  "gmail": {
+    "embedButton": "true",
+    "regexIdentifier": "^https:\\/\\/mail\\.google\\.com",
+    "taskTemplate": "$message [$subject ($source)]($href)"
+  },
+  "jira": {
+    "priorityMapping": {
+      "Blocker": 1,
+      "Critical": 1,
+      "Major": 1,
+      "Minor": 1,
+      "Trivial": 1
+    },
+    "priorityMappingEnabled": "false",
+    "regexIdentifier": "^https:\\/\\/[^.]+\\.atlassian\\.net\\/",
+    "taskTemplate": "$message [$summary ($source)]($href)"
+  },
+  "popup": {
+    "timeoutMs": 2000
+  },
+  "todoist": {
+    "todoistApiKey": "shhh! Its secret!"
+  },
+  "website": {
+    "regexIdentifier": ".*",
+    "taskTemplate": "$message [$title ($source)]($href)"
+  }
+}

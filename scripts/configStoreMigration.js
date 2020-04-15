@@ -9,47 +9,59 @@ const JIRA_PRIORITY_MAPPING = {
 };
 
 const SCHEDULE_OPTIONS = ['Today', 'Tomorrow', 'Next week'];
-const KNOWN_VERSIONS = ["1.1.2", "1.1.3"];
+const KNOWN_VERSIONS = ["1.1.2", "1.3.0"];
 
 class Migration {
-  static migrateStringToBoolean(object, property) {
+
+  static _logConfigMigration(msg) {
+    top.LOGGER.info("Config migration: " + msg);
+  }
+
+  static _migrateStringToBoolean(object, property) {
     const oldValue = object[property];
     if (typeof oldValue === 'string') {
+      Migration._logConfigMigration("Changing type from string to boolean for '" + property + "'");
       object[property] = oldValue === 'true';
     }
   }
 
-  static migrate(oldConfig) {
-    if (!oldConfig.version) {
-      const latestVersion = Migration.getLatestConfigVersion();
-      top.LOGGER.info("Config migration: Adding 'version'", latestVersion);
-      oldConfig.version = latestVersion;
+  static _addProperty(config, property, value) {
+    if (!config[property]) {
+      Migration._logConfigMigration("Adding '" + property + "'");
+      config[property] = value;
     }
-    if (!oldConfig.popup.scheduleOptions) {
-      oldConfig.popup.scheduleOptions = defaultConfig.popup.scheduleOptions;
-    }
-    if (!oldConfig.popup.scheduleEnabled) {
-      oldConfig.popup.scheduleEnabled = defaultConfig.popup.scheduleEnabled;
-    }
-
-    Migration.migrateStringToBoolean(oldConfig.popup, 'scheduleEnabled');
-    Migration.migrateStringToBoolean(oldConfig.gmail, 'embedButton');
-    Migration.migrateStringToBoolean(oldConfig.jira, 'priorityMappingEnabled');
-
-    const latestConfigVersion = Migration.getLatestConfigVersion();
-    if (!oldConfig.version !== latestConfigVersion) {
-      oldConfig.version = latestConfigVersion;
-    }
-    return oldConfig;
   }
 
-  static getLatestConfigVersion() {
+  static _updateConfigVersion(config) {
+    const latestConfigVersion = Migration._getLatestConfigVersion();
+    if (config.version !== latestConfigVersion) {
+      Migration._logConfigMigration("Changing config version from '" + config.version + " to '" +
+        latestConfigVersion + "'");
+      config.version = latestConfigVersion;
+    }
+  }
+
+  static _getLatestConfigVersion() {
     return KNOWN_VERSIONS[KNOWN_VERSIONS.length - 1];
+  }
+
+  static migrate(oldConfig) {
+    // pre 1.1.2 to 1.1.2
+    Migration._addProperty(oldConfig, 'version', Migration._getLatestConfigVersion());
+
+    // 1.1.2 to 1.3.0
+    Migration._addProperty(oldConfig.popup, 'scheduleOptions', defaultConfig.popup.scheduleOptions);
+    Migration._addProperty(oldConfig.popup, 'scheduleEnabled', defaultConfig.popup.scheduleEnabled);
+    Migration._migrateStringToBoolean(oldConfig.gmail, 'embedButton');
+    Migration._migrateStringToBoolean(oldConfig.jira, 'priorityMappingEnabled');
+
+    Migration._updateConfigVersion(oldConfig);
+    return oldConfig;
   }
 }
 
 const defaultConfig = {
-  version: Migration.getLatestConfigVersion(),
+  version: Migration._getLatestConfigVersion(),
   todoist: {
     todoistApiKey: ''
   },
@@ -81,6 +93,7 @@ const defaultConfig = {
 
 chrome.runtime.onInstalled.addListener(function () {
   chrome.storage.sync.get('configuration', function (response) {
+    console.log(JSON.stringify(response));
     const oldConfig = response.configuration;
     let configuration;
     if (!oldConfig) {
@@ -96,3 +109,9 @@ chrome.runtime.onInstalled.addListener(function () {
 // export
 top.DEFAULTS = top.DEFAULTS || {};
 top.DEFAULTS.DEFAULT_TODOIST_PRIORITY = DEFAULT_TODOIST_PRIORITY;
+
+// Tests //TODO do this in a more systematic way
+top.TEST = top.TEST || {};
+top.TEST.MIGRATION = top.TEST.MIGRATION || {};
+top.TEST.MIGRATION.Migration = Migration;
+top.TEST.MIGRATION.defaultConfig = defaultConfig;

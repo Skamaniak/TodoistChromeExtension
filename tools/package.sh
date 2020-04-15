@@ -31,6 +31,10 @@ rm -rf ${TMP_PROJECT_FOLDER}/.git
 rm -rf ${TMP_PROJECT_FOLDER}/.idea
 rm -rf ${TMP_PROJECT_FOLDER}/documentation
 rm -rf ${TMP_PROJECT_FOLDER}/tools
+rm -rf ${TMP_PROJECT_FOLDER}/test
+rm -rf ${TMP_PROJECT_FOLDER}/package.json
+rm -rf ${TMP_PROJECT_FOLDER}/package-lock.json
+rm -rf ${TMP_PROJECT_FOLDER}/node_modules
 rm -rf ${TMP_PROJECT_FOLDER}/README.md
 
 echo "Creating releasable archive..."
