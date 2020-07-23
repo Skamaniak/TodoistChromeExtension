@@ -74,7 +74,8 @@ const scrapeJiraTicketInfo = () => {
       assignee: issueAssignee,
       reporter: issueReporter,
       priority: issuePriority,
-      status: issueStatus
+      status: issueStatus,
+      key: issueKey
     };
   }
   return null;

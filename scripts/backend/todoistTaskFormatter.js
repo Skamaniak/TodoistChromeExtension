@@ -55,6 +55,7 @@ class TodoistTaskFormatter {
           .replace('$assignee', taskDefinition.assignee)
           .replace('$priority', taskDefinition.priority)
           .replace('$status', taskDefinition.status)
+          .replace('$key', taskDefinition.key)
           .replace('$message', taskDefinition.message || '');
 
         const task = TodoistTaskFormatter.createTask(taskDefinition, content);
