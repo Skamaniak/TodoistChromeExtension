@@ -56,10 +56,11 @@ window.onload = () => {
   actionHandlers[top.MESSAGE_BUS.ACTIONS.closePopup] = () => {
     window.close();
   };
+
   actionHandlers[top.MESSAGE_BUS.ACTIONS.popupData] = (popupData) => {
     taskDefinition = popupData.taskDefinition;
     const projects = popupData.projects;
-    projects.forEach((project) => addProjectOption(project, project.name === 'Inbox'));
+    projects.forEach((project) => addProjectOption(project, project.name === popupData.preselectedProject));
 
     if (!popupData.scheduleEnabled) {
       ELEMS.scheduleExtend.classList.add('hidden');

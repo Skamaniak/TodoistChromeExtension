@@ -9,7 +9,7 @@ const JIRA_PRIORITY_MAPPING = {
 };
 
 const SCHEDULE_OPTIONS = ['Today', 'Tomorrow', 'Next week'];
-const KNOWN_VERSIONS = ['1.1.2', '1.3.0'];
+const KNOWN_VERSIONS = ['1.1.2', '1.3.0', '1.3.1'];
 
 class Migration {
 
@@ -55,6 +55,9 @@ class Migration {
     Migration._migrateStringToBoolean(oldConfig.gmail, 'embedButton');
     Migration._migrateStringToBoolean(oldConfig.jira, 'priorityMappingEnabled');
 
+    // 1.3.0 to 1.3.1
+    Migration._addProperty(oldConfig.popup, 'preselectedProject', defaultConfig.popup.preselectedProject);
+
     Migration._updateConfigVersion(oldConfig);
     return oldConfig;
   }
@@ -68,7 +71,8 @@ const defaultConfig = {
   popup: {
     timeoutMs: 2000,
     scheduleOptions: SCHEDULE_OPTIONS,
-    scheduleEnabled: true
+    scheduleEnabled: true,
+    preselectedProject: 'Inbox'
   },
   gmail: {
     taskTemplate: '$message [$subject ($source)]($href)',

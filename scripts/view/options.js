@@ -19,6 +19,7 @@ window.onload = () => {
     POPUP: {
       timeout: document.getElementById('popupTimeout'),
       scheduleEnabled: document.getElementById('scheduleShow'),
+      preselectedProject: document.getElementById('preselectedProject'),
       scheduleExtend: document.getElementById('scheduleDetails'),
       scheduleOptions: document.getElementById('scheduleOptions')
     },
@@ -99,6 +100,7 @@ window.onload = () => {
       ELEMS.TODOIST.apiKey.value = config.todoist.todoistApiKey;
 
       ELEMS.POPUP.timeout.value = config.popup.timeoutMs;
+      ELEMS.POPUP.preselectedProject.value = config.popup.preselectedProject;
       ELEMS.POPUP.scheduleOptions.value = arrayToString(config.popup.scheduleOptions);
       ELEMS.POPUP.scheduleEnabled.value = config.popup.scheduleEnabled;
       ELEMS.GMAIL.taskTemplate.value = config.gmail.taskTemplate;
@@ -143,6 +145,7 @@ window.onload = () => {
       },
       popup: {
         timeoutMs: ELEMS.POPUP.timeout.value,
+        preselectedProject: ELEMS.POPUP.preselectedProject.value,
         scheduleOptions: stringToArray(ELEMS.POPUP.scheduleOptions.value),
         scheduleEnabled: stringToBoolean(ELEMS.POPUP.scheduleEnabled.value)
       },

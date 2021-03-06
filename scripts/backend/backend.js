@@ -63,6 +63,7 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.scheduleTaskCreation] = () => {
               projects: fetchProjectsState.projects,
               scheduleEnabled: popup.scheduleEnabled,
               scheduleOptions: popup.scheduleOptions,
+              preselectedProject: popup.preselectedProject,
               taskDefinition: taskCreationResponse.taskDefinition
             };
             top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
