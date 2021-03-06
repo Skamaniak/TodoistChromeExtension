@@ -33,14 +33,12 @@
         <img class="grid-item info-icon" src="/images/info-icon-16.png"
              title="Allow scheduling of Todoist tasks via plugin popup." />
 
-        <div class="full-row container">
-            <label class="grid-item" for="preselectedProject">Preselect project</label>
-            <input class="grid-item" id="preselectedProject" type="text" />
-            <img class="grid-item info-icon" src="/images/info-icon-16.png"
-                 title="Project name that should be pre-selected in the popup window." />
-        </div>
+        <label class="grid-item" for="preselectedProject">Preselect project</label>
+        <input class="grid-item" id="preselectedProject" type="text" />
+        <img class="grid-item info-icon" src="/images/info-icon-16.png"
+             title="Project name that should be pre-selected in the popup window." />
 
-        <div class="hidden full-row container">
+        <div class="hidden full-row container" id="scheduleDetails">
             <label class="grid-item" for="scheduleOptions">Schedule options</label>
             <input class="grid-item" id="scheduleOptions" type="text" placeholder="Today, Tomorrow, Next week" />
             <img class="grid-item info-icon" src="/images/info-icon-16.png"

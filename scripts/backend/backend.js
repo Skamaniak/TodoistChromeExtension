@@ -17,7 +17,7 @@ const createTask = (taskDefinition) => {
     });
 };
 
-const scheduleTaskCreation = function (response) {
+const scheduleTaskCreation = function (taskDefinition) {
   top.PLUGIN_ICON.signalWaiting();
   top.CONFIG_STORE.loadConfigSection('popup')
     .then((popup) => {
@@ -25,7 +25,7 @@ const scheduleTaskCreation = function (response) {
         top.LOGGER.debug('Creating scheduled task...');
         top.PLUGIN_ICON.clearSignal();
         top.MESSAGE_BUS.TO_POPUP.closePopup();
-        createTask(response.taskDefinition);
+        createTask(taskDefinition);
       }, popup.timeoutMs);
       top.LOGGER.debug('Task creation scheduled');
     });
@@ -46,6 +46,11 @@ const fetchProjects = () => {
     });
 };
 
+const getProjectIdByName = (projects, name) => {
+  const selectedProject = projects.filter(p => p.name === name)
+  return selectedProject.length === 1 ? selectedProject[0].id : null;
+}
+
 // Backend actions
 actionHandlers[top.MESSAGE_BUS.ACTIONS.createTask] = createTask;
 actionHandlers[top.MESSAGE_BUS.ACTIONS.injectContentScripts] = (_, sender) =>
@@ -59,15 +64,18 @@ actionHandlers[top.MESSAGE_BUS.ACTIONS.scheduleTaskCreation] = () => {
       .then(fetchProjectsState => {
         if (taskCreationResponse && taskCreationResponse.success && fetchProjectsState.loaded) {
           top.CONFIG_STORE.loadConfigSection('popup').then((popup) => {
+            const taskDefinition = taskCreationResponse.taskDefinition;
+            taskDefinition.projectId = getProjectIdByName(fetchProjectsState.projects, popup.preselectedProject);
+
             const popupData = {
               projects: fetchProjectsState.projects,
               scheduleEnabled: popup.scheduleEnabled,
               scheduleOptions: popup.scheduleOptions,
               preselectedProject: popup.preselectedProject,
-              taskDefinition: taskCreationResponse.taskDefinition
+              taskDefinition: taskDefinition
             };
             top.MESSAGE_BUS.TO_POPUP.popupData(popupData);
-            scheduleTaskCreation(taskCreationResponse);
+            scheduleTaskCreation(taskDefinition);
           });
         } else {
           top.MESSAGE_BUS.TO_POPUP.closePopup();
